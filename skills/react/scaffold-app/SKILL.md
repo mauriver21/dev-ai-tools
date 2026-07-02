@@ -12,13 +12,20 @@ Initialize a standard, production-ready React web application in a target direct
 ## 2. Inputs Needed
 Before executing, the agent must identify:
 * **projectName**: The directory name to initialize the app in, or `./` for the current workspace.
-* **packageManager**: The package manager to use (e.g., `npm`, `pnpm`, default to `pnpm` if monorepo, or `npm` otherwise).
+* **packageManager**: The package manager to use. The agent **MUST** explicitly ask the user to choose between **pnpm** (prioritized & recommended) or **npm** before installing dependencies.
 
 ---
 
 ## 3. Scaffolding Runbook
 
-### Step 1: Initialize Vite Project
+### Step 1: Query Package Manager Preference
+First, prompt the user in chat (or using a questionnaire tool if available) to select their package manager of choice:
+- **Option 1**: `pnpm` (Recommended / Prioritized)
+- **Option 2**: `npm`
+
+Once the user selects the package manager, proceed with initialization.
+
+### Step 2: Initialize Vite Project
 Create a TypeScript-enabled React application using Vite. Run the command in non-interactive mode.
 If initializing in the current directory `./`:
 ```bash
