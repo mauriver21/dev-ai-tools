@@ -30,7 +30,7 @@ src/api-clients/
 API clients are defined as **React Hooks** returning a standard set of async operations (CRUD) for a specific domain. This hook pattern allows:
 
 1. **Access to Context**: Accessing React context, environment variables, or other hooks (like notification hooks, authentication, or localized configurations) if needed.
-2. **Axios Integration**: Leveraging pre-configured Axios instances (e.g., `localAxios` from `@utils`) for headers, interceptors, and request/response transformation.
+2. **Axios Integration**: Leveraging pre-configured Axios instances (e.g., `{{clientName}}Axios` from `@utils`) for headers, interceptors, and request/response transformation.
 
 ### Generic CRUD Hook Interface
 
@@ -53,7 +53,7 @@ The following boilerplate provides the blueprint for writing standard API client
 ### File: `src/api-clients/use{{EntityName}}ApiClient/index.ts`
 
 ```typescript
-import { localAxios } from "@utils";
+import { {{clientName}}Axios } from "@utils";
 import { EntityParams, Id, {{EntityName}} } from "@interfaces";
 
 /**
@@ -69,7 +69,7 @@ export const use{{EntityName}}ApiClient = () => {
   const list = async (params?: EntityParams<{{EntityName}}>) => {
     const paginatedParams = { _limit: 10, _page: 0, ...params };
 
-    const { data, headers } = await localAxios.get<{{EntityName}}[]>("/{{EndpointPath}}", {
+    const { data, headers } = await {{clientName}}Axios.get<{{EntityName}}[]>("/{{EndpointPath}}", {
       params: paginatedParams,
     });
 
@@ -87,7 +87,7 @@ export const use{{EntityName}}ApiClient = () => {
    * Creates a new {{EntityName}} record.
    */
   const create = async (data: {{EntityName}}) => {
-    const response = await localAxios.post<{{EntityName}}>("/{{EndpointPath}}", data);
+    const response = await {{clientName}}Axios.post<{{EntityName}}>("/{{EndpointPath}}", data);
     return response.data;
   };
 
@@ -95,7 +95,7 @@ export const use{{EntityName}}ApiClient = () => {
    * Updates an existing {{EntityName}} record by ID.
    */
   const update = async (id: Id, data: {{EntityName}}) => {
-    const response = await localAxios.put<{{EntityName}}>(`/{{EndpointPath}}/${id}`, data);
+    const response = await {{clientName}}Axios.put<{{EntityName}}>(`/{{EndpointPath}}/${id}`, data);
     return response.data;
   };
 
@@ -103,7 +103,7 @@ export const use{{EntityName}}ApiClient = () => {
    * Reads a single {{EntityName}} record details by ID.
    */
   const read = async (id: Id) => {
-    const { data } = await localAxios.get<{{EntityName}}>(`/{{EndpointPath}}/${id}`);
+    const { data } = await {{clientName}}Axios.get<{{EntityName}}>(`/{{EndpointPath}}/${id}`);
     return data;
   };
 
@@ -111,7 +111,7 @@ export const use{{EntityName}}ApiClient = () => {
    * Deletes a {{EntityName}} record by ID.
    */
   const remove = async (id: Id) => {
-    const { data } = await localAxios.delete<{{EntityName}}>(`/{{EndpointPath}}/${id}`);
+    const { data } = await {{clientName}}Axios.delete<{{EntityName}}>(`/{{EndpointPath}}/${id}`);
     return data;
   };
 
@@ -166,8 +166,116 @@ Always import core entity structures and helper types from `@interfaces`:
 
 To maintain a clean module architecture:
 
-- Define shared Axios instances (like `localAxios`) inside `src/utils/` and import them using the path alias `@utils`.
+- Define shared Axios instances (like `{{clientName}}Axios`) inside `src/utils/` and import them using the path alias `@utils`.
 - Define types (like `EntityParams`, `Id`, and entity schemas) in `src/interfaces/` and import using `@interfaces`.
+
+---
+
+## 6. Unit Testing Boilerplate (MSW)
+
+API clients are tested by mocking the API responses via **MSW (Mock Service Worker)** runtime handlers rather than mocking the Axios module or implementation details.
+
+### Test Template: `src/api-clients/use{{EntityName}}ApiClient/index.test.ts`
+
+```typescript
+import { describe, it, expect } from "vitest";
+import { renderHook } from "@testing-library/react";
+import { http, HttpResponse } from "msw";
+import { server } from "@/mocks/server"; // Adjust path to project MSW server
+import { use{{EntityName}}ApiClient } from "./index";
+
+describe("use{{EntityName}}ApiClient", () => {
+  it("should query paginated list with defaults", async () => {
+    const mockData = [{ id: "1", name: "Mock Resource" }];
+    
+    server.use(
+      http.get("*/{{EndpointPath}}", ({ request }) => {
+        const url = new URL(request.url);
+        expect(url.searchParams.get("_limit")).toBe("10");
+        expect(url.searchParams.get("_page")).toBe("0");
+
+        return HttpResponse.json(mockData, {
+          headers: {
+            "x-total-count": "25",
+          },
+        });
+      })
+    );
+
+    const { result } = renderHook(() => use{{EntityName}}ApiClient());
+    const res = await result.current.list();
+
+    expect(res).toEqual({
+      data: mockData,
+      pagination: { count: 25, limit: 10, page: 0 },
+    });
+  });
+
+  it("should make a create POST request", async () => {
+    const payload = { name: "New Resource" };
+
+    server.use(
+      http.post("*/{{EndpointPath}}", async ({ request }) => {
+        const body = await request.json();
+        expect(body).toEqual(payload);
+        return HttpResponse.json({ id: "2", ...payload }, { status: 201 });
+      })
+    );
+
+    const { result } = renderHook(() => use{{EntityName}}ApiClient());
+    const res = await result.current.create(payload as any);
+
+    expect(res).toEqual({ id: "2", ...payload });
+  });
+
+  it("should make an update PUT request", async () => {
+    const payload = { id: "1", name: "Updated Resource" };
+
+    server.use(
+      http.put("*/{{EndpointPath}}/1", async ({ request }) => {
+        const body = await request.json();
+        expect(body).toEqual(payload);
+        return HttpResponse.json(payload);
+      })
+    );
+
+    const { result } = renderHook(() => use{{EntityName}}ApiClient());
+    const res = await result.current.update("1", payload as any);
+
+    expect(res).toEqual(payload);
+  });
+
+  it("should make a read GET request", async () => {
+    const mockData = { id: "1", name: "Resource" };
+
+    server.use(
+      http.get("*/{{EndpointPath}}/1", () => {
+        return HttpResponse.json(mockData);
+      })
+    );
+
+    const { result } = renderHook(() => use{{EntityName}}ApiClient());
+    const res = await result.current.read("1");
+
+    expect(res).toEqual(mockData);
+  });
+
+  it("should make a remove DELETE request", async () => {
+    const mockData = { id: "1", success: true };
+
+    server.use(
+      http.delete("*/{{EndpointPath}}/1", () => {
+        return HttpResponse.json(mockData);
+      })
+    );
+
+    const { result } = renderHook(() => use{{EntityName}}ApiClient());
+    const res = await result.current.remove("1");
+
+    expect(res).toEqual(mockData);
+  });
+});
+```
 
 ---
 

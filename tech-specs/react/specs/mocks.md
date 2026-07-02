@@ -114,7 +114,7 @@ Handlers define the route path and request interceptor logic, simulating common 
 
 ```typescript
 import { HttpResponse, delay, http } from 'msw';
-import { BASE_LOCAL_URL } from '@/utils/axiosLocal';
+import { BASE_{{CLIENT_NAME}}_URL } from '@/utils/{{clientName}}Axios';
 import { paginateData } from '@/utils/paginateData';
 import { data } from '../data';
 import { Item } from '@/interfaces/Item';
@@ -122,7 +122,7 @@ import { v4 as uuid } from 'uuid';
 
 export const itemHandler = [
   // 1. GET List (With Pagination Support)
-  http.get(`${BASE_LOCAL_URL}/items`, async ({ request }) => {
+  http.get(`${BASE_{{CLIENT_NAME}}_URL}/items`, async ({ request }) => {
     const url = new URL(request.url);
     const size = Number(url.searchParams.get('_size') || 10);
     const page = Number(url.searchParams.get('_page') || 0);
@@ -149,7 +149,7 @@ export const itemHandler = [
   }),
 
   // 2. GET Single Record by ID
-  http.get(`${BASE_LOCAL_URL}/items/:id`, async ({ params }) => {
+  http.get(`${BASE_{{CLIENT_NAME}}_URL}/items/:id`, async ({ params }) => {
     const { id } = params;
     const item = data.items.find((i) => i.id === id);
 
@@ -165,7 +165,7 @@ export const itemHandler = [
   }),
 
   // 3. POST Create
-  http.post(`${BASE_LOCAL_URL}/items`, async ({ request }) => {
+  http.post(`${BASE_{{CLIENT_NAME}}_URL}/items`, async ({ request }) => {
     const payload = (await request.json()) as Item;
     const newItem = { id: uuid(), ...payload };
 
@@ -176,7 +176,7 @@ export const itemHandler = [
   }),
 
   // 4. PUT Update
-  http.put(`${BASE_LOCAL_URL}/items/:id`, async ({ request, params }) => {
+  http.put(`${BASE_{{CLIENT_NAME}}_URL}/items/:id`, async ({ request, params }) => {
     const { id } = params;
     const exists = data.items.some((i) => i.id === id);
 
@@ -194,7 +194,7 @@ export const itemHandler = [
   }),
 
   // 5. DELETE Remove
-  http.delete(`${BASE_LOCAL_URL}/items/:id`, async ({ params }) => {
+  http.delete(`${BASE_{{CLIENT_NAME}}_URL}/items/:id`, async ({ params }) => {
     const { id } = params;
     const item = data.items.find((i) => i.id === id);
 

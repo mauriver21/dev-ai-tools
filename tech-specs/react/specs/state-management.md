@@ -347,42 +347,42 @@ export enum QueryKey {
 }
 ```
 
-### 3. Create Axios Local Instance (`utils/axiosLocal.ts`)
+### 3. Create Axios Local Instance (`utils/{{clientName}}Axios.ts`)
 ```typescript
 import axios from 'axios';
 
-export const BASE_LOCAL_URL = process.env.REACT_APP_BASE_LOCAL_URL;
-export const axiosLocal = axios.create({
-  baseURL: BASE_LOCAL_URL,
+export const BASE_{{CLIENT_NAME}}_URL = import.meta.env.VITE_BASE_{{CLIENT_NAME}}_URL;
+export const {{clientName}}Axios = axios.create({
+  baseURL: BASE_{{CLIENT_NAME}}_URL,
 });
 ```
 
 ### 4. Create API Client (`api-clients/useMovieApiClient.ts`)
 ```typescript
-import { axiosLocal } from '@/utils/axiosLocal';
+import { {{clientName}}Axios } from '@/utils/{{clientName}}Axios';
 import { CreateResponse, Id, ListResponse, PaginationParams, ReadResponse, RemoveResponse, UpdateResponse } from 'react-redux-use-model';
 import { Movie } from '@/interfaces/Movie';
 
 export const useMovieApiClient = () => {
   const list = async (params: PaginationParams): Promise<ListResponse<Movie>> => {
-    const response = await axiosLocal.get<ListResponse<Movie>>('/movies', { params });
+    const response = await {{clientName}}Axios.get<ListResponse<Movie>>('/movies', { params });
     return response.data;
   };
 
   const create = async (entity: Movie): Promise<CreateResponse<Movie>> => {
-    return axiosLocal.post<Movie>('/movies', entity);
+    return {{clientName}}Axios.post<Movie>('/movies', entity);
   };
 
   const update = async (id: Id, entity: Movie): Promise<UpdateResponse<Movie>> => {
-    return axiosLocal.put<Movie>(`/movies/${id}`, entity);
+    return {{clientName}}Axios.put<Movie>(`/movies/${id}`, entity);
   };
 
   const read = async (id: Id): Promise<ReadResponse<Movie>> => {
-    return axiosLocal.get<Movie>(`/movies/${id}`);
+    return {{clientName}}Axios.get<Movie>(`/movies/${id}`);
   };
 
   const remove = async (id: Id): Promise<RemoveResponse<Movie>> => {
-    return axiosLocal.delete<Movie>(`/movies/${id}`);
+    return {{clientName}}Axios.delete<Movie>(`/movies/${id}`);
   };
 
   return { list, create, update, read, remove };
