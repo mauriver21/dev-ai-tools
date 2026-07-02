@@ -30,7 +30,7 @@ src/api-clients/
 API clients are defined as **React Hooks** returning a standard set of async operations (CRUD) for a specific domain. This hook pattern allows:
 
 1. **Access to Context**: Accessing React context, environment variables, or other hooks (like notification hooks, authentication, or localized configurations) if needed.
-2. **Axios Integration**: Leveraging pre-configured Axios instances (e.g., `{{clientName}}Axios` from `@utils`) for headers, interceptors, and request/response transformation.
+2. **Axios Integration**: Leveraging pre-configured Axios instances (e.g., `{{clientName}}Axios` from `@/utils`) for headers, interceptors, and request/response transformation.
 
 ### Generic CRUD Hook Interface
 
@@ -53,8 +53,8 @@ The following boilerplate provides the blueprint for writing standard API client
 ### File: `src/api-clients/use{{EntityName}}ApiClient/index.ts`
 
 ```typescript
-import { {{clientName}}Axios } from "@utils";
-import { EntityParams, Id, {{EntityName}} } from "@interfaces";
+import { {{clientName}}Axios } from "@/utils";
+import { EntityParams, Id, {{EntityName}} } from "@/interfaces";
 
 /**
  * Custom hook representing the API client for {{EntityName}} entities.
@@ -149,7 +149,7 @@ The `list` endpoint assumes the server uses custom pagination headers:
 
 ### B. Standard Type Usage
 
-Always import core entity structures and helper types from `@interfaces`:
+Always import core entity structures and helper types from `@/interfaces`:
 
 - **`Id`**: Unified identifier type (e.g. `string | number`) to avoid type mismatching.
 - **`EntityParams<T>`**: Wraps search query parameters, filtering, sorting, and pagination options.
@@ -166,8 +166,8 @@ Always import core entity structures and helper types from `@interfaces`:
 
 To maintain a clean module architecture:
 
-- Define shared Axios instances (like `{{clientName}}Axios`) inside `src/utils/` and import them using the path alias `@utils`.
-- Define types (like `EntityParams`, `Id`, and entity schemas) in `src/interfaces/` and import using `@interfaces`.
+- Define shared Axios instances (like `{{clientName}}Axios`) inside `src/utils/` and import them using the path alias `@/utils`.
+- Define types (like `EntityParams`, `Id`, and entity schemas) in `src/interfaces/` and import using `@/interfaces`.
 
 ---
 

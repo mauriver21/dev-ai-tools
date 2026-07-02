@@ -46,7 +46,7 @@ export const {{clientName}}Axios = axios.create({
 
 - **Environment Variables**: The environment variable `VITE_BASE_{{CLIENT_NAME}}_URL` must point to the target backend service and be declared in environment files (e.g., `.env.dev`, `.env.prod`) using Vite's nomenclature (`VITE_` prefix).
 - **Interceptors**: Additional headers, token injections, and response parsing must be configured on the specific `{{clientName}}Axios` instance using Axios interceptors if needed.
-- **Global Path Mapping**: Import the instance utilizing the `@utils` path alias (e.g., `import { {{clientName}}Axios } from '@utils'`).
+- **Global Path Mapping**: Import the instance utilizing the `@/utils` path alias (e.g., `import { {{clientName}}Axios } from '@/utils'`).
 
 ---
 

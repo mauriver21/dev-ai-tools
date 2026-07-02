@@ -114,10 +114,10 @@ The custom models hook (`useModel`) maps specific backend actions directly to th
 
 ### 5. Defining an API Client
 
-API client methods can be defined using a client library like Axios (e.g. `{{clientName}}Axios` from `@utils`). All methods must meet the required type constraints to format response payloads correctly.
+API client methods can be defined using a client library like Axios (e.g. `{{clientName}}Axios` from `@/utils`). All methods must meet the required type constraints to format response payloads correctly.
 
 ```typescript
-import { {{clientName}}Axios } from '@utils';
+import { {{clientName}}Axios } from '@/utils';
 import { ListResponse, CreateResponse, UpdateResponse, RemoveResponse, ReadResponse, Id, PaginationParams } from 'react-redux-use-model';
 import { {{EntityName}} } from '@/interfaces/{{EntityName}}';
 
