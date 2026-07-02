@@ -32,7 +32,7 @@ src/api-clients/use{{EntityName}}ApiClient/
 ### Step 3: Write Implementation File (`index.ts`)
 Write the custom hook code to `src/api-clients/use{{EntityName}}ApiClient/index.ts`.
 Read the template code directly from section 3 ("Reference Boilerplate") of:
-* [api-clients.md](../../../tech-specs/react/specs/api-clients.md#3-reference-boilerplate)
+* [api-clients.md](../../../tech-specs/react/specs/api-clients/spec.md#3-reference-boilerplate)
 
 Replace all placeholder variables:
 * `{{EntityName}}` with the PascalCase entity name.
@@ -42,7 +42,7 @@ Replace all placeholder variables:
 ### Step 4: Write Unit Test File (`index.test.ts`)
 Create a Vitest test suite at `src/api-clients/use{{EntityName}}ApiClient/index.test.ts` using MSW.
 Read the unit test code template directly from section 6 ("Unit Testing Boilerplate (MSW)") of:
-* [api-clients.md](../../../tech-specs/react/specs/api-clients.md#6-unit-testing-boilerplate-msw)
+* [api-clients.md](../../../tech-specs/react/specs/api-clients/spec.md#6-unit-testing-boilerplate-msw)
 
 Replace:
 * `{{EntityName}}` with the PascalCase entity name.

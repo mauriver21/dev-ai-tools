@@ -233,4 +233,4 @@ yarn-error.log*
 pnpm-debug.log*
 ```
 
-[Go back to Table of Contents](./spec.md)
+[Go back to Table of Contents](../README.md)

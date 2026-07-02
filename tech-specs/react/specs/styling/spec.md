@@ -250,4 +250,4 @@ export const tahoeTheme = createTheme({
 });
 ```
 
-[Go back to Table of Contents](./spec.md)
+[Go back to Table of Contents](../README.md)
