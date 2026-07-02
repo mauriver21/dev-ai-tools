@@ -112,38 +112,38 @@ The custom models hook (`useModel`) maps specific backend actions directly to th
 
 ---
 
-## 5. Defining an API Client
+### 5. Defining an API Client
 
-API client methods can be defined using native `fetch` or a client library like `axios`. All methods must meet the required type constraints to format response payloads correctly.
+API client methods can be defined using a client library like Axios (e.g. `{{clientName}}Axios` from `@utils`). All methods must meet the required type constraints to format response payloads correctly.
 
 ```typescript
-import axios from 'axios';
+import { {{clientName}}Axios } from '@utils';
 import { ListResponse, CreateResponse, UpdateResponse, RemoveResponse, ReadResponse, Id, PaginationParams } from 'react-redux-use-model';
-import { Movie } from '@/interfaces/Movie';
+import { {{EntityName}} } from '@/interfaces/{{EntityName}}';
 
-export const useMovieApiClient = () => {
-  const list = async (params: PaginationParams): Promise<ListResponse<Movie>> => {
-    const response = await axios.get<ListResponse<Movie>>('/movies', { params });
+export const use{{EntityName}}ApiClient = () => {
+  const list = async (params: PaginationParams): Promise<ListResponse<{{EntityName}}>> => {
+    const response = await {{clientName}}Axios.get<ListResponse<{{EntityName}}>>('/{{EndpointPath}}', { params });
     return response.data;
   };
 
-  const create = async (entity: Omit<Movie, 'id'>): Promise<CreateResponse<Movie>> => {
-    const response = await axios.post<Movie>('/movies', entity);
+  const create = async (entity: Omit<{{EntityName}}, 'id'>): Promise<CreateResponse<{{EntityName}}>> => {
+    const response = await {{clientName}}Axios.post<{{EntityName}}>('/{{EndpointPath}}', entity);
     return response.data;
   };
 
-  const update = async (id: Id, entity: Movie): Promise<UpdateResponse<Movie>> => {
-    const response = await axios.put<Movie>(`/movies/${id}`, entity);
+  const update = async (id: Id, entity: {{EntityName}}): Promise<UpdateResponse<{{EntityName}}>> => {
+    const response = await {{clientName}}Axios.put<{{EntityName}}>(`/{{EndpointPath}}/${id}`, entity);
     return response.data;
   };
 
-  const read = async (id: Id): Promise<ReadResponse<Movie>> => {
-    const response = await axios.get<Movie>(`/movies/${id}`);
+  const read = async (id: Id): Promise<ReadResponse<{{EntityName}}>> => {
+    const response = await {{clientName}}Axios.get<{{EntityName}}>(`/{{EndpointPath}}/${id}`);
     return response.data;
   };
 
-  const remove = async (id: Id): Promise<RemoveResponse<Movie>> => {
-    const response = await axios.delete<Movie>(`/movies/${id}`);
+  const remove = async (id: Id): Promise<RemoveResponse<{{EntityName}}>> => {
+    const response = await {{clientName}}Axios.delete<{{EntityName}}>(`/{{EndpointPath}}/${id}`);
     return response.data;
   };
 
@@ -155,52 +155,52 @@ export const useMovieApiClient = () => {
 
 ## 6. Defining a Custom Model Hook
 
-We recommend encapsulating the hook configuration inside a custom React hook (e.g. `useMovieModel`) for each of your entities.
+We recommend encapsulating the hook configuration inside a custom React hook (e.g. `use{{EntityName}}Model`) for each of your entities.
 
 ```typescript
 import { useModel, EntityActionType, ListQueryHandler, CreateQueryHandler, UpdateQueryHandler, RemoveQueryHandler, ReadQueryHandler } from 'react-redux-use-model';
-import { Movie } from '@/interfaces/Movie';
-import { useMovieApiClient } from '@/api-clients/useMovieApiClient';
+import { {{EntityName}} } from '@/interfaces/{{EntityName}}';
+import { use{{EntityName}}ApiClient } from '@/api-clients/use{{EntityName}}ApiClient';
 import { EntityName } from '@/constants/enums';
 
-export const useMovieModel = () => {
-  const movieApiClient = useMovieApiClient();
+export const use{{EntityName}}Model = () => {
+  const {{entityName}}ApiClient = use{{EntityName}}ApiClient();
   
   const model = useModel<
-    Movie,
+    {{EntityName}},
     {
-      list: ListQueryHandler<Movie>;
-      create: CreateQueryHandler<Movie>;
-      update: UpdateQueryHandler<Movie>;
-      read: ReadQueryHandler<Movie>;
-      remove: RemoveQueryHandler<Movie>;
+      list: ListQueryHandler<{{EntityName}}>;
+      create: CreateQueryHandler<{{EntityName}}>;
+      update: UpdateQueryHandler<{{EntityName}}>;
+      read: ReadQueryHandler<{{EntityName}}>;
+      remove: RemoveQueryHandler<{{EntityName}}>;
     }
   >({
-    entityName: EntityName.Movies, // Must be a unique string identifier
+    entityName: EntityName.{{EntityName}}s, // Must be a unique string identifier
     config: {
       paginationSizeMultiplier: 5, // Optional. Pre-fetches 5x size records to keep in cache.
     },
     handlers: {
       list: {
-        apiFn: movieApiClient.list,
+        apiFn: {{entityName}}ApiClient.list,
         action: EntityActionType.LIST,
       },
       read: {
-        apiFn: movieApiClient.read,
+        apiFn: {{entityName}}ApiClient.read,
         action: EntityActionType.READ,
       },
       create: {
-        apiFn: movieApiClient.create,
+        apiFn: {{entityName}}ApiClient.create,
         action: EntityActionType.CREATE,
         onSuccess: (response) => console.log('Created:', response.data),
         onError: (err) => console.error('Failed to create:', err),
       },
       update: {
-        apiFn: movieApiClient.update,
+        apiFn: {{entityName}}ApiClient.update,
         action: EntityActionType.UPDATE,
       },
       remove: {
-        apiFn: movieApiClient.remove,
+        apiFn: {{entityName}}ApiClient.remove,
         action: EntityActionType.REMOVE,
       },
     },
@@ -218,8 +218,8 @@ export const useMovieModel = () => {
 The list query handler supports backend-driven paginated lists.
 
 ```typescript
-movieModel.list({
-  queryKey: 'movies-list-key',
+{{entityName}}Model.list({
+  queryKey: '{{entityName}}s-list-key',
   paginationParams: { _page: 0, _size: 10, _filter: '' },
 });
 ```
@@ -237,7 +237,7 @@ Submits a creation payload to the API. Once the API responds, the record is norm
 * **API Constraint**: Returns `Promise<CreateResponse<T>>`.
 * **Execution**:
 ```typescript
-movieModel.create({ name: 'Inception' });
+{{entityName}}Model.create({ name: 'Generic Name' });
 ```
 
 ---
@@ -248,7 +248,7 @@ Fetches a single record from the backend by ID and populates it in the store.
 * **API Constraint**: Returns `Promise<ReadResponse<T>>`.
 * **Execution**:
 ```typescript
-movieModel.read(movieId);
+{{entityName}}Model.read({{entityName}}Id);
 ```
 
 ---
@@ -259,7 +259,7 @@ Sends an update payload (usually a `PUT` request). Once updated, the normalized 
 * **API Constraint**: Returns `Promise<UpdateResponse<T>>`.
 * **Execution**:
 ```typescript
-movieModel.update(movieId, { id: movieId, name: 'Inception (Updated)' });
+{{entityName}}Model.update({{entityName}}Id, { id: {{entityName}}Id, name: 'Generic Name (Updated)' });
 ```
 
 ---
@@ -270,7 +270,7 @@ Deletes a record on the backend (usually a `DELETE` request). Upon success, the 
 * **API Constraint**: Returns `Promise<RemoveResponse<T>>`.
 * **Execution**:
 ```typescript
-movieModel.remove(movieId);
+{{entityName}}Model.remove({{entityName}}Id);
 ```
 
 > [!NOTE]
@@ -285,24 +285,24 @@ Use these selectors inside Redux's `useSelector` hook to retrieve data and query
 ### `selectEntity(state, id)`
 Retrieves a normalized record from the store by its ID.
 ```typescript
-const { data: movie, loading } = useSelector((state: RootState) =>
-  movieModel.selectEntity(state, movieId)
+const { data: {{entityName}}, loading } = useSelector((state: RootState) =>
+  {{entityName}}Model.selectEntity(state, {{entityName}}Id)
 );
 ```
 
 ### `selectEntities(state, ids)`
 Retrieves multiple normalized records by their IDs.
 ```typescript
-const movies = useSelector((state: RootState) =>
-  movieModel.selectEntities(state, movieIds)
+const {{entityName}}s = useSelector((state: RootState) =>
+  {{entityName}}Model.selectEntities(state, {{entityName}}Ids)
 ); // Returns array of { id, data, loading }
 ```
 
 ### `selectAllEntities(state)`
 Retrieves all currently cached/normalized records of this entity type.
 ```typescript
-const allMovies = useSelector((state: RootState) =>
-  movieModel.selectAllEntities(state)
+const all{{EntityName}}s = useSelector((state: RootState) =>
+  {{entityName}}Model.selectAllEntities(state)
 );
 ```
 
@@ -317,20 +317,20 @@ const {
   creating,          // Boolean loading state for creates
   updating,          // Boolean loading state for updates
   removing,          // Boolean loading state for deletes
-} = useSelector(movieModel.selectPaginatedQuery);
+} = useSelector({{entityName}}Model.selectPaginatedQuery);
 ```
 
 ---
 
 ## 9. Full Quick-Start Example
 
-Here is a complete end-to-end integration for a Movies CRUD application.
+Here is a complete end-to-end integration for a generic CRUD application.
 
-### 1. Define Entity (`interfaces/Movie.ts`)
+### 1. Define Entity (`interfaces/{{EntityName}}.ts`)
 ```typescript
 import { Id } from 'react-redux-use-model';
 
-export type Movie = {
+export type {{EntityName}} = {
   id?: Id;
   name: string;
 };
@@ -339,15 +339,15 @@ export type Movie = {
 ### 2. Define Enums (`constants/enums.ts`)
 ```typescript
 export enum EntityName {
-  Movies = 'Movies',
+  {{EntityName}}s = '{{EntityName}}s',
 }
 
 export enum QueryKey {
-  MoviesCrud = 'MoviesCrud',
+  {{EntityName}}sCrud = '{{EntityName}}sCrud',
 }
 ```
 
-### 3. Create Axios Local Instance (`utils/{{clientName}}Axios.ts`)
+### 3. Create Axios Instance (`utils/{{clientName}}Axios.ts`)
 ```typescript
 import axios from 'axios';
 
@@ -357,71 +357,71 @@ export const {{clientName}}Axios = axios.create({
 });
 ```
 
-### 4. Create API Client (`api-clients/useMovieApiClient.ts`)
+### 4. Create API Client (`api-clients/use{{EntityName}}ApiClient.ts`)
 ```typescript
 import { {{clientName}}Axios } from '@/utils/{{clientName}}Axios';
 import { CreateResponse, Id, ListResponse, PaginationParams, ReadResponse, RemoveResponse, UpdateResponse } from 'react-redux-use-model';
-import { Movie } from '@/interfaces/Movie';
+import { {{EntityName}} } from '@/interfaces/{{EntityName}}';
 
-export const useMovieApiClient = () => {
-  const list = async (params: PaginationParams): Promise<ListResponse<Movie>> => {
-    const response = await {{clientName}}Axios.get<ListResponse<Movie>>('/movies', { params });
+export const use{{EntityName}}ApiClient = () => {
+  const list = async (params: PaginationParams): Promise<ListResponse<{{EntityName}}>> => {
+    const response = await {{clientName}}Axios.get<ListResponse<{{EntityName}}>>('/{{EndpointPath}}', { params });
     return response.data;
   };
 
-  const create = async (entity: Movie): Promise<CreateResponse<Movie>> => {
-    return {{clientName}}Axios.post<Movie>('/movies', entity);
+  const create = async (entity: {{EntityName}}): Promise<CreateResponse<{{EntityName}}>> => {
+    return {{clientName}}Axios.post<{{EntityName}}>('/{{EndpointPath}}', entity);
   };
 
-  const update = async (id: Id, entity: Movie): Promise<UpdateResponse<Movie>> => {
-    return {{clientName}}Axios.put<Movie>(`/movies/${id}`, entity);
+  const update = async (id: Id, entity: {{EntityName}}): Promise<UpdateResponse<{{EntityName}}>> => {
+    return {{clientName}}Axios.put<{{EntityName}}>(`/{{EndpointPath}}/${id}`, entity);
   };
 
-  const read = async (id: Id): Promise<ReadResponse<Movie>> => {
-    return {{clientName}}Axios.get<Movie>(`/movies/${id}`);
+  const read = async (id: Id): Promise<ReadResponse<{{EntityName}}>> => {
+    return {{clientName}}Axios.get<{{EntityName}}>(`/{{EndpointPath}}/${id}`);
   };
 
-  const remove = async (id: Id): Promise<RemoveResponse<Movie>> => {
-    return {{clientName}}Axios.delete<Movie>(`/movies/${id}`);
+  const remove = async (id: Id): Promise<RemoveResponse<{{EntityName}}>> => {
+    return {{clientName}}Axios.delete<{{EntityName}}>(`/{{EndpointPath}}/${id}`);
   };
 
   return { list, create, update, read, remove };
 };
 ```
 
-### 5. Create custom Model Hook (`models/useMovieModel.ts`)
+### 5. Create custom Model Hook (`models/use{{EntityName}}Model.ts`)
 ```typescript
 import { EntityName } from '@/constants/enums';
-import { useMovieApiClient } from '@/api-clients/useMovieApiClient';
+import { use{{EntityName}}ApiClient } from '@/api-clients/use{{EntityName}}ApiClient';
 import { useModel, EntityActionType, ListQueryHandler, CreateQueryHandler, UpdateQueryHandler, RemoveQueryHandler, ReadQueryHandler } from 'react-redux-use-model';
-import { Movie } from '@/interfaces/Movie';
+import { {{EntityName}} } from '@/interfaces/{{EntityName}}';
 
-export const useMovieModel = () => {
-  const movieApiClient = useMovieApiClient();
+export const use{{EntityName}}Model = () => {
+  const {{entityName}}ApiClient = use{{EntityName}}ApiClient();
   const model = useModel<
-    Movie,
+    {{EntityName}},
     {
-      list: ListQueryHandler<Movie>;
-      create: CreateQueryHandler<Movie>;
-      update: UpdateQueryHandler<Movie>;
-      read: ReadQueryHandler<Movie>;
-      remove: RemoveQueryHandler<Movie>;
+      list: ListQueryHandler<{{EntityName}}>;
+      create: CreateQueryHandler<{{EntityName}}>;
+      update: UpdateQueryHandler<{{EntityName}}>;
+      read: ReadQueryHandler<{{EntityName}}>;
+      remove: RemoveQueryHandler<{{EntityName}}>;
     }
   >({
-    entityName: EntityName.Movies,
+    entityName: EntityName.{{EntityName}}s,
     config: {
       paginationSizeMultiplier: 5,
     },
     handlers: {
-      list: { apiFn: movieApiClient.list, action: EntityActionType.LIST },
-      read: { apiFn: movieApiClient.read, action: EntityActionType.READ },
-      create: { apiFn: movieApiClient.create, action: EntityActionType.CREATE },
-      update: { apiFn: movieApiClient.update, action: EntityActionType.UPDATE },
-      remove: { apiFn: movieApiClient.remove, action: EntityActionType.REMOVE },
+      list: { apiFn: {{entityName}}ApiClient.list, action: EntityActionType.LIST },
+      read: { apiFn: {{entityName}}ApiClient.read, action: EntityActionType.READ },
+      create: { apiFn: {{entityName}}ApiClient.create, action: EntityActionType.CREATE },
+      update: { apiFn: {{entityName}}ApiClient.update, action: EntityActionType.UPDATE },
+      remove: { apiFn: {{entityName}}ApiClient.remove, action: EntityActionType.REMOVE },
     },
   });
 
-  const save = (data: Movie) => {
+  const save = (data: {{EntityName}}) => {
     if (data.id) {
       return model.update(data.id, data);
     } else {
@@ -439,42 +439,42 @@ export const useMovieModel = () => {
 };
 ```
 
-### 6. Create Movie Item Component (`components/MovieItem.tsx`)
+### 6. Create Entity Item Component (`components/{{EntityName}}Item.tsx`)
 ```tsx
 import React from 'react';
 import { Id } from 'react-redux-use-model';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import { useMovieModel } from '@/models/useMovieModel';
+import { use{{EntityName}}Model } from '@/models/use{{EntityName}}Model';
 
-export interface MovieItemProps {
-  movieId: Id;
+export interface {{EntityName}}ItemProps {
+  {{entityName}}Id: Id;
 }
 
-export const MovieItem: React.FC<MovieItemProps> = ({ movieId }) => {
-  const movieModel = useMovieModel();
-  const { data: movie, loading } = useSelector((state: RootState) =>
-    movieModel.selectEntity(state, movieId)
+export const {{EntityName}}Item: React.FC<{{EntityName}}ItemProps> = ({ {{entityName}}Id }) => {
+  const {{entityName}}Model = use{{EntityName}}Model();
+  const { data: {{entityName}}, loading } = useSelector((state: RootState) =>
+    {{entityName}}Model.selectEntity(state, {{entityName}}Id)
   );
 
   const updateRandom = () => {
-    movieModel.update(movieId, {
-      id: movieId,
-      name: `${movie?.name} (Updated)`
+    {{entityName}}Model.update({{entityName}}Id, {
+      id: {{entityName}}Id,
+      name: `${{{entityName}}?.name} (Updated)`
     });
   };
 
-  if (loading) return <div>Loading movie details...</div>;
+  if (loading) return <div>Loading details...</div>;
 
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px', border: '1px solid #ccc', margin: '4px 0' }}>
-      <span>{movieId}. {movie?.name}</span>
+      <span>{{{{entityName}}Id}}. {{{entityName}}?.name}</span>
       <div>
-        <button disabled={movieModel.updateState.isLoading} onClick={updateRandom}>
-          {movieModel.updateState.isLoading ? 'Updating...' : 'Rename'}
+        <button disabled={{{entityName}}Model.updateState.isLoading} onClick={updateRandom}>
+          {{{{entityName}}Model.updateState.isLoading ? 'Updating...' : 'Rename'}
         </button>
-        <button disabled={movieModel.removeState.isLoading} onClick={() => movieModel.remove(movieId)}>
-          {movieModel.removeState.isLoading ? 'Removing...' : 'Delete'}
+        <button disabled={{{entityName}}Model.removeState.isLoading} onClick={() => {{entityName}}Model.remove({{entityName}}Id)}>
+          {{{{entityName}}Model.removeState.isLoading ? 'Removing...' : 'Delete'}
         </button>
       </div>
     </div>
@@ -482,73 +482,73 @@ export const MovieItem: React.FC<MovieItemProps> = ({ movieId }) => {
 };
 ```
 
-### 7. Create Main Movies CRUD Container (`components/MoviesCrud.tsx`)
+### 7. Create Main Entities CRUD Container (`components/{{EntityName}}sCrud.tsx`)
 ```tsx
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { QueryKey } from '@/constants/enums';
-import { useMovieModel } from '@/models/useMovieModel';
-import { MovieItem } from './MovieItem';
+import { use{{EntityName}}Model } from '@/models/use{{EntityName}}Model';
+import { {{EntityName}}Item } from './{{EntityName}}Item';
 import { PaginationParams, useDebounce } from 'react-redux-use-model';
 
-export const MoviesCrud: React.FC = () => {
-  const movieModel = useMovieModel();
-  const moviePaginatedQuery = useSelector(movieModel.selectPaginatedQuery);
+export const {{EntityName}}sCrud: React.FC = () => {
+  const {{entityName}}Model = use{{EntityName}}Model();
+  const {{entityName}}PaginatedQuery = useSelector({{entityName}}Model.selectPaginatedQuery);
   const {
     paginationParams = { _page: 0, _size: 10, _filter: '' },
     creating,
     ids,
     pagination,
-  } = moviePaginatedQuery;
+  } = {{entityName}}PaginatedQuery;
 
-  const createMovie = () => {
-    movieModel.create({ name: `Random Movie ${Math.floor(Math.random() * 1000)}` });
+  const create{{EntityName}} = () => {
+    {{entityName}}Model.create({ name: `Random ${Math.floor(Math.random() * 1000)}` });
   };
 
-  const listMovies = (params: PaginationParams) => {
-    movieModel.list({
-      queryKey: QueryKey.MoviesCrud,
+  const list{{EntityName}}s = (params: PaginationParams) => {
+    {{entityName}}Model.list({
+      queryKey: QueryKey.{{EntityName}}sCrud,
       paginationParams: params,
     });
   };
 
-  const debouncedListMovies = useDebounce(listMovies);
+  const debouncedList{{EntityName}}s = useDebounce(list{{EntityName}}s);
 
   useEffect(() => {
-    listMovies(paginationParams);
+    list{{EntityName}}s(paginationParams);
   }, []);
 
   return (
     <div style={{ padding: '16px' }}>
-      <h2>Movie Database</h2>
+      <h2>Database Container</h2>
       <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
         <input
           type="text"
-          placeholder="Filter movies..."
-          onChange={(e) => debouncedListMovies({ ...paginationParams, _page: 0, _filter: e.target.value })}
+          placeholder="Filter..."
+          onChange={(e) => debouncedList{{EntityName}}s({ ...paginationParams, _page: 0, _filter: e.target.value })}
         />
-        <button disabled={creating} onClick={createMovie}>
-          {creating ? 'Adding Movie...' : 'Add Random Movie'}
+        <button disabled={creating} onClick={create{{EntityName}}}>
+          {creating ? 'Adding...' : 'Add Random'}
         </button>
       </div>
 
       <div>
         {ids?.map((id) => (
-          <MovieItem key={id} movieId={id} />
+          <{{EntityName}}Item key={id} {{entityName}}Id={id} />
         ))}
       </div>
 
       <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'space-between' }}>
         <button
           disabled={paginationParams._page === 0}
-          onClick={() => listMovies({ ...paginationParams, _page: paginationParams._page - 1 })}
+          onClick={() => list{{EntityName}}s({ ...paginationParams, _page: paginationParams._page - 1 })}
         >
           Previous
         </button>
         <span>Page {paginationParams._page + 1} of {pagination?.totalPages || 1}</span>
         <button
           disabled={paginationParams._page + 1 >= (pagination?.totalPages || 1)}
-          onClick={() => listMovies({ ...paginationParams, _page: paginationParams._page + 1 })}
+          onClick={() => list{{EntityName}}s({ ...paginationParams, _page: paginationParams._page + 1 })}
         >
           Next
         </button>
@@ -557,5 +557,7 @@ export const MoviesCrud: React.FC = () => {
   );
 };
 ```
+
+---
 
 [Go back to Table of Contents](../README.md)
