@@ -79,3 +79,11 @@ Do not duplicate code; copy catalog structures and the reactive provider compone
 ### Step 9: Configure Store and Hydration Entrypoint
 1. Set up the global Redux store configuration `src/store.ts` by combining state reducers matching [state-management/spec.md#configure-the-redux-store-storets](../../../tech-specs/react/specs/state-management/spec.md#configure-the-redux-store-storets).
 2. Wire up the bootstrap loader in `src/main.tsx` to conditionally start the MSW browser worker and render the React root wrapped in Redux and i18n providers matching [state-management/spec.md#wrap-the-application-maintsx](../../../tech-specs/react/specs/state-management/spec.md#wrap-the-application-maintsx) and [mocks/spec.md#5-worker--server-configuration](../../../tech-specs/react/specs/mocks/spec.md#5-worker--server-configuration).
+
+---
+
+## 4. Key Conventions Reminder
+> [!IMPORTANT]
+> When building components, hooks, contexts, utilities, or unit tests in subsequent steps, the agent **must** follow the self-contained Folder-as-Module layout and code conventions defined in:
+> * [conventions/spec.md](../../../tech-specs/react/specs/conventions/spec.md)
+
