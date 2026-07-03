@@ -62,8 +62,8 @@ Clean up Vite's default templates, empty the contents of `src/index.css`, and re
 * **Code Specification**: [configurations/spec.md#3-react-app-cleanup](../../../tech-specs/react/specs/configurations/spec.md#3-react-app-cleanup)
 
 Ensure that:
-1. The top header/app bar contains a Dropdown menu (`Select`) to select the active theme (e.g. `'default'`, `'ocean'`, `'sunset'`) and a Switch toggle to alternate between light and dark mode.
-2. Changes to the theme select and mode toggle are dispatched to Redux state using the standard `useAppModel()` hook to update the global theme.
+1. The top header/app bar contains a Dropdown menu (`Select`) to select the active theme (e.g. `'default'`, `'ocean'`, `'sunset'`), a Dropdown menu (`Select`) to select the active language (e.g. `'en'`, `'es'`), and a Switch toggle to alternate between light and dark mode.
+2. Changes to the theme select, language select, and mode toggle are dispatched to Redux state using the standard `useAppModel()` hook.
 3. The main page area renders a centered Card element displaying "Hello World!" in a prominent Typography block.
 
 ### Step 6: Setup Internationalization (i18n)

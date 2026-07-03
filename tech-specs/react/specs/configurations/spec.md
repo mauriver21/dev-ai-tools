@@ -2,49 +2,21 @@
 
 ## 1. TypeScript Paths Configuration (`tsconfig.app.json`)
 
-To enable clean path imports, use path alias configurations pointing to `@/*`:
+To enable clean path imports and avoid deep relative links (like `../../../../components`), configure path aliases pointing to the respective module folders inside `src/`. Mappings are defined under `compilerOptions.paths` using the following generic patterns:
+
+* **Directory Aliases**: `@/{{folder-name}}/*` maps to `["./src/{{folder-name}}/*"]` (e.g. `@/components/*` resolving to `./src/components/*`).
+* **Direct File Aliases**: `@/{{file-name}}` maps to `["./src/{{file-name}}"]` (e.g. `@/store` resolving to `./src/store.ts`).
+
+Generic configuration structure template:
 
 ```json
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable", "dom", "esnext"],
-    "module": "ESNext",
-    "skipLibCheck": true,
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "isolatedModules": true,
-    "moduleDetection": "force",
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "baseUrl": "./",
     "paths": {
-      "@/api-clients/*": ["src/api-clients/*"],
-      "@/assets/*": ["src/assets/*"],
-      "@/components/*": ["src/components/*"],
-      "@/constants/*": ["src/constants/*"],
-      "@/contexts/*": ["src/contexts/*"],
-      "@/form-schemas/*": ["src/form-schemas/*"],
-      "@/hocs/*": ["src/hocs/*"],
-      "@/hooks/*": ["src/hooks/*"],
-      "@/interfaces/*": ["src/interfaces/*"],
-      "@/i18n/*": ["src/i18n/*"],
-      "@/layouts/*": ["src/layouts/*"],
-      "@/mocks/*": ["src/mocks/*"],
-      "@/models/*": ["src/models/*"],
-      "@/pages/*": ["src/pages/*"],
-      "@/routes": ["src/routes"],
-      "@/states": ["src/states"],
-      "@/store": ["src/store.ts"],
-      "@/utils/*": ["src/utils/*"]
+      "@/{{folderName}}/*": ["./src/{{folderName}}/*"],
+      "@/{{fileName}}": ["./src/{{fileName}}"]
     }
-  },
-  "include": ["src"]
+  }
 }
 ```
 
@@ -54,21 +26,21 @@ The build pipeline loads environment variables, automatically checks Typescript 
 
 ```typescript
 /// <reference types="vitest" />
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import tsconfigPaths from 'vite-tsconfig-paths';
-import EnvironmentPlugin from 'vite-plugin-environment';
-import checker from 'vite-plugin-checker';
-import * as dotenv from 'dotenv';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tsconfigPaths from "vite-tsconfig-paths";
+import EnvironmentPlugin from "vite-plugin-environment";
+import checker from "vite-plugin-checker";
+import * as dotenv from "dotenv";
 
 // Load environment variables according to NODE_ENV
 const envPaths = {
-  development: '.env.dev',
-  production: '.env.prod',
+  development: ".env.dev",
+  production: ".env.prod",
 };
 
 dotenv.config({
-  path: envPaths[process.env.NODE_ENV as keyof typeof envPaths] || '.env.dev',
+  path: envPaths[process.env.NODE_ENV as keyof typeof envPaths] || ".env.dev",
 });
 
 export default defineConfig({
@@ -77,21 +49,21 @@ export default defineConfig({
     // Perform type checking asynchronously in a separate process
     checker({
       typescript: {
-        tsconfigPath: './tsconfig.app.json',
+        tsconfigPath: "./tsconfig.app.json",
       },
       overlay: false,
     }),
     // Resolve TS path mappings automatically in Vite imports
     tsconfigPaths(),
-    EnvironmentPlugin('all'),
+    EnvironmentPlugin("all"),
   ],
   server: {
     port: 5173,
   },
   test: {
     globals: true,
-    environment: 'jsdom',
-    setupFiles: ['./src/setupTests.ts'],
+    environment: "jsdom",
+    setupFiles: ["./src/setupTests.ts"],
   },
 });
 ```
@@ -113,9 +85,10 @@ Immediately after scaffolding the React application using Vite, perform the foll
 Immediately after scaffolding, configure the initial pages, layouts, and routing arrays. This splits the theme selector and mode toggle header from the home page content, routing via React Router DOM.
 
 #### 1. Home Page Component (`src/pages/Home/index.tsx`)
+
 ```tsx
-import React from 'react';
-import { Card, CardContent, Typography, Container } from '@mui/material';
+import React from "react";
+import { Card, CardContent, Typography, Container } from "@mui/material";
 
 export const Home: React.FC = () => {
   return (
@@ -123,15 +96,20 @@ export const Home: React.FC = () => {
       maxWidth="lg"
       sx={{
         flexGrow: 1,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
         py: 4,
       }}
     >
-      <Card sx={{ minWidth: 300, textAlign: 'center', p: 4, borderRadius: 2 }}>
+      <Card sx={{ minWidth: 300, textAlign: "center", p: 4, borderRadius: 2 }}>
         <CardContent>
-          <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
+          <Typography
+            variant="h4"
+            component="h1"
+            gutterBottom
+            sx={{ fontWeight: "bold" }}
+          >
             Hello World!
           </Typography>
           <Typography color="text.secondary">
@@ -145,45 +123,60 @@ export const Home: React.FC = () => {
 ```
 
 #### 2. Main Layout Component (`src/layouts/MainLayout/index.tsx`)
+
 This layout wraps child views with a header bar that provides the global theme select dropdown and light/dark mode switch, rendering child components inside the `<Outlet />` element matching [hello-world-layout.png](../../../skills/react/scaffold-app/resources/images/hello-world-layout.png):
+
 ```tsx
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom';
-import { 
-  Box, 
-  AppBar, 
-  Toolbar, 
-  Select, 
-  MenuItem, 
-  FormControl, 
-  InputLabel, 
-  Switch, 
-  FormControlLabel 
-} from '@mui/material';
-import { useAppModel } from '@/models/useAppModel';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Outlet } from "react-router-dom";
+import {
+  Box,
+  AppBar,
+  Toolbar,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Switch,
+  FormControlLabel,
+} from "@mui/material";
+import { useAppModel } from "@/models/useAppModel";
 
 export const MainLayout: React.FC = () => {
   const dispatch = useDispatch();
   const appModel = useAppModel();
   const appState = useSelector(appModel.selectAppState);
 
-  const activeThemeName = appState.theme || 'default';
-  const activeMode = appState.mode || 'light';
+  const activeThemeName = appState.theme || "default";
+  const activeMode = appState.mode || "light";
+  const activeLang = appState.selectedLang || "en";
 
   const handleThemeChange = (event: any) => {
     dispatch(appModel.setTheme(event.target.value));
   };
 
   const handleModeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const nextMode = event.target.checked ? 'dark' : 'light';
+    const nextMode = event.target.checked ? "dark" : "light";
     dispatch(appModel.setMode(nextMode));
   };
 
+  const handleLangChange = (event: any) => {
+    dispatch(appModel.setSelectedLang(event.target.value));
+  };
+
   return (
-    <Box sx={{ flexGrow: 1, minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: 'background.default' }}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        bgcolor: "background.default",
+      }}
+    >
       <AppBar position="static" color="default" elevation={1}>
-        <Toolbar sx={{ justifyContent: 'flex-end', gap: 2 }}>
+        <Toolbar sx={{ justifyContent: "flex-end", gap: 2 }}>
           <FormControl size="small" sx={{ minWidth: 120 }}>
             <InputLabel id="theme-select-label">Theme</InputLabel>
             <Select
@@ -198,19 +191,35 @@ export const MainLayout: React.FC = () => {
               <MenuItem value="sunset">Sunset</MenuItem>
             </Select>
           </FormControl>
+          <FormControl size="small" sx={{ minWidth: 120 }}>
+            <InputLabel id="lang-select-label">Language</InputLabel>
+            <Select
+              labelId="lang-select-label"
+              id="lang-select"
+              value={activeLang}
+              label="Language"
+              onChange={handleLangChange}
+            >
+              <MenuItem value="en">English</MenuItem>
+              <MenuItem value="es">Español</MenuItem>
+            </Select>
+          </FormControl>
           <FormControlLabel
             control={
               <Switch
-                checked={activeMode === 'dark'}
+                checked={activeMode === "dark"}
                 onChange={handleModeChange}
                 color="primary"
               />
             }
-            label={activeMode === 'dark' ? 'Dark' : 'Light'}
+            label={activeMode === "dark" ? "Dark" : "Light"}
           />
         </Toolbar>
       </AppBar>
-      <Box component="main" sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}
+      >
         <Outlet />
       </Box>
     </Box>
@@ -219,15 +228,16 @@ export const MainLayout: React.FC = () => {
 ```
 
 #### 3. Routing Configuration (`src/routes/index.tsx`)
+
 ```tsx
-import React from 'react';
-import { RouteObject } from 'react-router-dom';
-import { MainLayout } from '@/layouts/MainLayout';
-import { Home } from '@/pages/Home';
+import React from "react";
+import { RouteObject } from "react-router-dom";
+import { MainLayout } from "@/layouts/MainLayout";
+import { Home } from "@/pages/Home";
 
 export const routes: RouteObject[] = [
   {
-    path: '/',
+    path: "/",
     element: <MainLayout />,
     children: [
       {
@@ -240,11 +250,13 @@ export const routes: RouteObject[] = [
 ```
 
 #### 4. App Entrypoint (`src/App.tsx`)
+
 `App.tsx` serves as the router mount point, consuming and resolving the active route configurations:
+
 ```tsx
-import React from 'react';
-import { useRoutes } from 'react-router-dom';
-import { routes } from '@/routes';
+import React from "react";
+import { useRoutes } from "react-router-dom";
+import { routes } from "@/routes";
 
 export const App: React.FC = () => {
   const element = useRoutes(routes);
