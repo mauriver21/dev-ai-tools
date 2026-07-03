@@ -48,18 +48,10 @@ cp -r tmp-dev-ai-tools/tech-specs .agent/resources/specs/
 
 _(This places the `tech-specs` folder structure at `.agent/resources/specs/tech-specs/`)._
 
+
 ### Step 4: Copy and Rename Skills
 
-For each technology category (like `react`), copy its skills into the `.agent/skills/` folder, prefixing them with the stack name (`{{tech}}-{{skillName}}`):
-
-```bash
-# Copy react skills
-cp -r tmp-dev-ai-tools/skills/react/configure-axios .agent/skills/react-configure-axios
-cp -r tmp-dev-ai-tools/skills/react/create-api-client .agent/skills/react-create-api-client
-cp -r tmp-dev-ai-tools/skills/react/scaffold-app .agent/skills/react-scaffold-app
-cp -r tmp-dev-ai-tools/skills/react/create-mock .agent/skills/react-create-mock
-cp -r tmp-dev-ai-tools/skills/react/create-theme .agent/skills/react-create-theme
-```
+For each technology category (like `react`), copy its skill directories into the `.agent/skills/` folder, prefixing each destination directory with the stack name (e.g. copying `tmp-dev-ai-tools/skills/react/scaffold-app` to `.agent/skills/react-scaffold-app`).
 
 ### Step 5: Rewrite Relative Paths in Skills
 
@@ -71,11 +63,6 @@ Specifically, replace the parent prefix `../../../tech-specs/` with the new rela
 - **Search Pattern**: `../../../tech-specs/`
 - **Replacement**: `../../resources/specs/tech-specs/`
 
-_Example replacement result in `.agent/skills/react-configure-axios/SKILL.md`:_
-
-```markdown
-[axios.md](../../../tech-specs/react/specs/axios/spec.md) -> [axios.md](../../resources/specs/tech-specs/react/specs/axios/spec.md)
-```
 
 ### Step 6: Cleanup Temporary Files
 
