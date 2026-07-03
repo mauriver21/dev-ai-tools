@@ -32,8 +32,8 @@ Validation schemas are defined dynamically via custom hooks using the Yup schema
 ### Boilerplate Schema Hook: `src/form-schemas/useLoginSchema/index.ts`
 
 ```typescript
-import * as yup from 'yup';
-import { useTranslation } from 'react-i18next';
+import * as yup from "yup";
+import { useTranslation } from "react-i18next";
 
 export const useLoginSchema = () => {
   const { t } = useTranslation();
@@ -41,12 +41,12 @@ export const useLoginSchema = () => {
   return yup.object().shape({
     email: yup
       .string()
-      .required(t('login.errors.emailRequired'))
-      .email(t('login.errors.invalidEmail')),
+      .required(t("login.errors.emailRequired"))
+      .email(t("login.errors.invalidEmail")),
     password: yup
       .string()
-      .required(t('login.errors.passwordRequired'))
-      .min(6, t('login.errors.passwordLength')),
+      .required(t("login.errors.passwordRequired"))
+      .min(6, t("login.errors.passwordLength")),
   });
 };
 ```
@@ -109,11 +109,11 @@ Every common form input component (e.g., `TextField`, `Select`, `Checkbox`, `Dat
 import {
   TextField as MuiTextField,
   TextFieldProps as MuiTextFieldProps,
-} from '@mui/material';
+} from "@mui/material";
 import {
   withReactHookForm,
   WithReactHookFormProps,
-} from '@/hocs/withReactHookForm';
+} from "@/hocs/withReactHookForm";
 
 export type TextFieldProps = MuiTextFieldProps & {
   errorMessage?: string;
@@ -127,6 +127,8 @@ export const TextField = withReactHookForm(
     error: errorProp,
     errorMessage: errorMessageProp,
     hideErrorMessage,
+    required,
+    slotProps,
     ...rest
   }: TextFieldProps & WithReactHookFormProps) => {
     const error = fieldState?.invalid || errorProp;
@@ -135,13 +137,17 @@ export const TextField = withReactHookForm(
     return (
       <MuiTextField
         {...field}
+        slotProps={{
+          inputLabel: { required, ...slotProps?.inputLabel },
+          ...slotProps,
+        }}
         fullWidth
         error={fieldState?.invalid || error}
         helperText={hideErrorMessage ? undefined : errorMessage}
         {...rest}
       />
     );
-  }
+  },
 );
 ```
 
@@ -154,15 +160,15 @@ Using components wrapped with `withReactHookForm` yields clean, readable form re
 ### React Component Implementation Boilerplate
 
 ```tsx
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useLoginSchema } from '@/form-schemas/useLoginSchema';
-import { TextField } from '@/components/TextField';
+import React from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useLoginSchema } from "@/form-schemas/useLoginSchema";
+import { TextField } from "@/components/TextField";
 
 export const LoginForm: React.FC = () => {
   const loginSchema = useLoginSchema();
-  
+
   const {
     control,
     handleSubmit,
@@ -170,38 +176,32 @@ export const LoginForm: React.FC = () => {
   } = useForm({
     resolver: yupResolver(loginSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
 
   const onSubmit = async (data: any) => {
     try {
       // Execute your API login request here
-      console.log('Form Submitted Data:', data);
+      console.log("Form Submitted Data:", data);
     } catch (error) {
-      console.error('Submission failed', error);
+      console.error("Submission failed", error);
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {/* Field automatically registers with React Hook Form using name and control */}
-      <TextField
-        name="email"
-        control={control}
-        label="Email Address"
-      />
-
+      <TextField name="email" control={control} label="Email Address" />
       <TextField
         name="password"
         control={control}
         label="Password"
         type="password"
       />
-
       <button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Submitting...' : 'Sign In'}
+        {isSubmitting ? "Submitting..." : "Sign In"}
       </button>
     </form>
   );
@@ -210,13 +210,193 @@ export const LoginForm: React.FC = () => {
 
 ---
 
-## 6. Key Rules
+## 6. Testing Form Field Components (Storybook)
+
+To verify the integration between custom form fields (wrapped in `withReactHookForm`) and React Hook Form validation logic, write interaction tests using Storybook's `play` function. Use `@storybook/test` utilities (`within`, `userEvent`, `expect`) to simulate user interactions and assert validation outcomes.
+
+### Storybook Test Suite: `src/components/TextField/index.stories.tsx`
+
+```tsx
+import { TextField } from '@/components/TextField';
+import { Button, Stack } from '@mui/material';
+import { Meta, StoryObj } from '@storybook/react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { within, userEvent, expect } from '@storybook/test';
+
+const meta: Meta<typeof TextField> = {
+  title: 'Components/TextField',
+  component: TextField,
+};
+
+export default meta;
+
+const schema = yup.object({
+  default: yup.string().required('This field is required'),
+  helper: yup.string().required('This field is required'),
+  email: yup
+    .string()
+    .email('Please enter a valid email')
+    .required('Email is required'),
+  required: yup.string().required('This field is required'),
+  password: yup.string().required('Password is required'),
+});
+
+const Form = () => {
+  const { control, handleSubmit, trigger, reset } = useForm<
+    yup.InferType<typeof schema>
+  >({
+    resolver: yupResolver(schema),
+    mode: 'all',
+    defaultValues: {
+      default: '',
+      helper: '',
+      email: '',
+      required: '',
+      password: '',
+    },
+  });
+
+  return (
+    <Stack
+      component="form"
+      noValidate
+      spacing={3}
+      onSubmit={handleSubmit(console.log)}
+    >
+      <TextField
+        name="default"
+        control={control}
+        label="Default"
+        placeholder="Type something..."
+      />
+      <TextField
+        name="helper"
+        control={control}
+        label="With Helper Text"
+        helperText="This helper text provides additional information."
+      />
+      <TextField name="email" control={control} label="Email" />
+      <TextField name="required" control={control} label="Required" required />
+      <TextField
+        name="password"
+        control={control}
+        label="Password"
+        type="password"
+      />
+      <Stack direction="row" spacing={2}>
+        <Button variant="outlined" type="submit">
+          Submit
+        </Button>
+        <Button variant="outlined" onClick={() => trigger()}>
+          Validate
+        </Button>
+        <Button variant="outlined" onClick={() => reset()}>
+          Reset
+        </Button>
+      </Stack>
+    </Stack>
+  );
+};
+
+type Story = StoryObj<typeof TextField>;
+
+export const Overview: Story = {
+  render: Form,
+};
+
+export const ValidationOnBlur: Story = {
+  render: Form,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const field = canvas.getByLabelText('Default');
+
+    await userEvent.click(field);
+    await userEvent.tab();
+
+    await expect(
+      canvas.getByText('This field is required')
+    ).toBeInTheDocument();
+  },
+};
+
+export const ValidationOnChange: Story = {
+  render: Form,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const email = canvas.getByLabelText('Email');
+
+    await userEvent.type(email, 'invalid');
+    await userEvent.tab();
+
+    await expect(
+      canvas.getByText('Please enter a valid email')
+    ).toBeInTheDocument();
+
+    await userEvent.clear(email);
+    await userEvent.type(email, 'john@example.com');
+
+    await expect(
+      canvas.queryByText('Please enter a valid email')
+    ).not.toBeInTheDocument();
+  },
+};
+
+export const ValidateButton: Story = {
+  render: Form,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await userEvent.click(canvas.getByRole('button', { name: /validate/i }));
+
+    await expect(canvas.getByText('Password is required')).toBeInTheDocument();
+
+    await expect(canvas.getByText('Email is required')).toBeInTheDocument();
+  },
+};
+
+export const SubmitButton: Story = {
+  render: Form,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await userEvent.click(canvas.getByRole('button', { name: /submit/i }));
+
+    await expect(canvas.getByText('Password is required')).toBeInTheDocument();
+
+    await expect(canvas.getByText('Email is required')).toBeInTheDocument();
+  },
+};
+
+export const ResetButton: Story = {
+  render: Form,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const email = canvas.getByLabelText('Email');
+
+    await userEvent.type(email, 'john@example.com');
+
+    await expect(email).toHaveValue('john@example.com');
+
+    await userEvent.click(canvas.getByRole('button', { name: /reset/i }));
+
+    await expect(email).toHaveValue('');
+  },
+};
+```
+
+---
+
+## 7. Key Rules
 
 1. **Dynamic Localization**: Always wrap Yup schema definitions in a React Hook using `useTranslation()` so error labels reactively update on language swaps.
 2. **Standard HOC Usage**: Prioritize wrapping UI components with `withReactHookForm` to keep the layout code free of boilerplate.
 3. **Explicit Defaults**: Always provide complete `defaultValues` inside `useForm` configuration to prevent fields from registering as uncontrolled components.
 4. **Fallback to Controller**: Use the raw `<Controller>` component directly only when dealing with complex, one-off, or third-party wrappers that cannot easily be standardized via `withReactHookForm`.
 5. **Default Width**: Guarantee `fullWidth` as default on every form field component (e.g., hardcoded inside the wrapped base component's implementation). The parent layout container is responsible for defining the actual size and spacing of the form field.
+6. **Disable Browser Validation**: To prevent browser-native 'required' validation popups from overriding custom schema-based validations, destruct `required` and only pass it to `slotProps.inputLabel` (instead of passing it directly to the HTML input). This retains the visual asterisk (\*) indicator without triggering native browser blocking.
 
 [Go back to Table of Contents](../README.md)
-
