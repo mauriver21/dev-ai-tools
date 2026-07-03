@@ -23,6 +23,9 @@ This directory contains the executable skills (or prompt runbooks) for AI agents
 5. **[Create React MUI Theme](./react/create-theme/SKILL.md)**
    Automates building and registering custom light/dark design token palettes and style overrides under assets/themes/.
 
+6. **[Generate Translations](./react/generate-translations/SKILL.md)**
+   Automates building translated JSON catalogs for specific target languages, creating namespace indices, and registering them globally.
+
 ### Orchestration / Setup
 
 1. **[Install Dev AI Tools & Specs](./open-spec-install-dev-ai-tools/SKILL.md)**

@@ -24,7 +24,7 @@ Redux Language State
 1. **Namespaced Catalogs**: Translations are divided by functionality (e.g., `common.json` for buttons/alerts, `glossary.json` for domain terms) to prevent single-file bloating.
 2. **Reactive Localization**: The app language state is managed globally (via Redux) and connected to the i18n provider so language shifts instantly update the UI.
 3. **TypeScript Safety**: Translation resources are structured into namespaces and exported as clean JS namespaces.
-4. **Mandatory UI Localization**: All user-facing text strings must be defined in the translation catalogs and accessed reactively via the translation engine. Hardcoded text strings in UI components are forbidden.
+4. **Mandatory UI Localization**: All user-facing text strings must be defined in the translation catalogs and translated with the `t` function. Hardcoded text strings in UI components are forbidden.
 
 ---
 
