@@ -50,6 +50,6 @@ src/
 
 To ensure clean and modular code separation, follow these rules:
 
-1. **Shared/Global Types**: All data models, API responses, or other shared TypeScript types and interfaces MUST reside inside the `src/interfaces/` directory.
-2. **Single-File Principle**: Each file in the `src/interfaces/` directory MUST contain only a single type or interface declaration (e.g. `src/interfaces/User.ts`, `src/interfaces/Item.ts`). Do not combine multiple unrelated types into a single utility types file.
-3. **Component-Specific Types**: Props and configurations specific to a single component (e.g. `ButtonProps`, `CardProps`) MUST remain inside that component's file. Do not move component-specific props to the `src/interfaces/` folder.
+1. **Standalone Interface Files**: Every TypeScript type or interface defined in the application (including data models, API payloads, parameters, custom state structures, etc.)—**with the sole exception of component-specific props**—MUST be created as a standalone file inside the `src/interfaces/` directory.
+2. **Single-File Principle**: Each file in the `src/interfaces/` directory MUST contain only a single type or interface declaration (e.g. `src/interfaces/User.ts`, `src/interfaces/Item.ts`). Do not combine multiple unrelated types into a single file.
+3. **Component-Specific Props**: Props and configurations specific to a single component (e.g. `ButtonProps`, `CardProps`) MUST remain inside that component's file. Do not move component-specific props to the `src/interfaces/` folder.

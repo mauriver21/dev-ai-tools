@@ -49,9 +49,22 @@ cp -r tmp-dev-ai-tools/tech-specs .agent/resources/specs/
 _(This places the `tech-specs` folder structure at `.agent/resources/specs/tech-specs/`)._
 
 
-### Step 4: Copy and Rename Skills
+### Step 4: Copy, Rename, and Add YAML Headers to Skills
 
-For each technology category (like `react`), copy its skill directories into the `.agent/skills/` folder, prefixing each destination directory with the stack name (e.g. copying `tmp-dev-ai-tools/skills/react/scaffold-app` to `.agent/skills/react-scaffold-app`).
+1. For each technology category (like `react`), copy its skill directories into the `.agent/skills/` folder, prefixing each destination directory with the stack name (e.g. copying `tmp-dev-ai-tools/skills/react/scaffold-app` to `.agent/skills/react-scaffold-app`).
+2. Prepend the Open Spec YAML frontmatter header to the top of each copied `SKILL.md` file (e.g. `.agent/skills/react-{{skillName}}/SKILL.md`). Customize the metadata properties to match the specific skill:
+
+```yaml
+---
+name: react-{{skillName}}
+description: {{briefDescriptionOfSkill}}
+license: MIT
+compatibility: Requires git and basic bash utilities.
+metadata:
+  author: dev-ai-tools
+  version: "1.0"
+---
+```
 
 ### Step 5: Rewrite Relative Paths in Skills
 

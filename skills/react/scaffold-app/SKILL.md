@@ -93,6 +93,17 @@ Do not duplicate code; copy catalog structures and the reactive provider compone
 1. Set up the global Redux store configuration `src/store.ts` by combining state reducers matching [state-management/spec.md#configure-the-redux-store-storets](../../../tech-specs/react/specs/state-management/spec.md#configure-the-redux-store-storets).
 2. Wire up the bootstrap loader in `src/main.tsx` to conditionally start the MSW browser worker and render the React root wrapped in Redux and i18n providers matching [state-management/spec.md#wrap-the-application-maintsx](../../../tech-specs/react/specs/state-management/spec.md#wrap-the-application-maintsx) and [mocks/spec.md#5-worker--server-configuration](../../../tech-specs/react/specs/mocks/spec.md#5-worker--server-configuration).
 
+### Step 10: Verify the Application is Running
+
+Verify that the scaffolded application compiles and runs successfully:
+1. Run the local development server (e.g., `pnpm dev` or `npm run dev`).
+2. Verify that there are no terminal compilation errors or runtime exceptions in the browser.
+3. If the application fails to run or compile, investigate the logs and apply the necessary fixes. Typical solutions include:
+   * Resolving alias path resolutions in `tsconfig.app.json` by adding the `./` prefix (e.g. `"@/routes/*": ["./src/routes/*"]` instead of `"src/routes/*"`).
+   * Checking that all state reducers are imported and combined correctly.
+   * Checking that relative paths in imports match target structures exactly.
+4. Run the test suite (e.g. `pnpm test` or `npm run test`) and Storybook (e.g. `pnpm storybook` or `npm run storybook`) to confirm the entire environment is fully healthy.
+
 ---
 
 ## 4. Key Conventions & Specifications Reminder
