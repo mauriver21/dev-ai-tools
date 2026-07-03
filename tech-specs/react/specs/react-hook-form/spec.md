@@ -60,7 +60,6 @@ To eliminate verbose and repetitive `<Controller>` wrapper boilerplate in forms,
 ### HOC Implementation: `src/hocs/withReactHookForm/index.tsx`
 
 ```typescript
-import React from 'react';
 import {
   useController,
   UseControllerProps,
@@ -70,7 +69,9 @@ import {
   UseFormStateReturn,
 } from 'react-hook-form';
 
-export interface WithReactHookFormProps {
+export interface WithReactHookFormProps extends Partial<
+  UseControllerProps<any>
+> {
   field?: ControllerRenderProps<any>;
   fieldState?: ControllerFieldState;
   formState?: UseFormStateReturn<any>;
@@ -124,6 +125,7 @@ export const TextField = withReactHookForm(
   ({
     field,
     fieldState,
+    control,
     error: errorProp,
     errorMessage: errorMessageProp,
     hideErrorMessage,
@@ -217,45 +219,57 @@ To verify the integration between custom form fields (wrapped in `withReactHookF
 ### Storybook Test Suite: `src/components/TextField/index.stories.tsx`
 
 ```tsx
-import { TextField } from '@/components/TextField';
-import { Button, Stack } from '@mui/material';
-import { Meta, StoryObj } from '@storybook/react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { within, userEvent, expect } from '@storybook/test';
+import { TextField } from "@/components/TextField";
+import { Button, Stack } from "@mui/material";
+import { Meta, StoryObj } from "@storybook/react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { within, userEvent, expect } from "@storybook/test";
 
 const meta: Meta<typeof TextField> = {
-  title: 'Components/TextField',
+  title: "Components/TextField",
   component: TextField,
 };
+
+type Story = StoryObj<typeof TextField>;
 
 export default meta;
 
 const schema = yup.object({
-  default: yup.string().required('This field is required'),
-  helper: yup.string().required('This field is required'),
+  default: yup.string().required("This field is required"),
+  helper: yup.string().required("This field is required"),
   email: yup
     .string()
-    .email('Please enter a valid email')
-    .required('Email is required'),
-  required: yup.string().required('This field is required'),
-  password: yup.string().required('Password is required'),
+    .email("Please enter a valid email")
+    .required("Email is required"),
+  required: yup.string().required("This field is required"),
+  password: yup.string().required("Password is required"),
 });
 
-const Form = () => {
+const fillValues: yup.InferType<typeof schema> = {
+  default: "John",
+  helper: "Some helper text",
+  email: "john@example.com",
+  required: "Required value",
+  password: "Password123",
+};
+
+const defaultValues = {
+  default: "",
+  helper: "",
+  email: "",
+  required: "",
+  password: "",
+};
+
+const render = () => {
   const { control, handleSubmit, trigger, reset } = useForm<
     yup.InferType<typeof schema>
   >({
     resolver: yupResolver(schema),
-    mode: 'all',
-    defaultValues: {
-      default: '',
-      helper: '',
-      email: '',
-      required: '',
-      password: '',
-    },
+    mode: "all",
+    defaultValues,
   });
 
   return (
@@ -289,10 +303,13 @@ const Form = () => {
         <Button variant="outlined" type="submit">
           Submit
         </Button>
+        <Button variant="outlined" onClick={() => reset(fillValues)}>
+          Fill
+        </Button>
         <Button variant="outlined" onClick={() => trigger()}>
           Validate
         </Button>
-        <Button variant="outlined" onClick={() => reset()}>
+        <Button variant="outlined" onClick={() => reset(defaultValues)}>
           Reset
         </Button>
       </Stack>
@@ -300,90 +317,106 @@ const Form = () => {
   );
 };
 
-type Story = StoryObj<typeof TextField>;
-
 export const Overview: Story = {
-  render: Form,
+  render,
 };
 
 export const ValidationOnBlur: Story = {
-  render: Form,
+  render,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    const field = canvas.getByLabelText('Default');
+    const field = canvas.getByLabelText("Default");
 
     await userEvent.click(field);
     await userEvent.tab();
 
     await expect(
-      canvas.getByText('This field is required')
+      canvas.getByText("This field is required"),
     ).toBeInTheDocument();
   },
 };
 
 export const ValidationOnChange: Story = {
-  render: Form,
+  render,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const email = canvas.getByLabelText('Email');
+    const email = canvas.getByLabelText("Email");
 
-    await userEvent.type(email, 'invalid');
+    await userEvent.type(email, "invalid");
     await userEvent.tab();
 
     await expect(
-      canvas.getByText('Please enter a valid email')
+      canvas.getByText("Please enter a valid email"),
     ).toBeInTheDocument();
 
     await userEvent.clear(email);
-    await userEvent.type(email, 'john@example.com');
+    await userEvent.type(email, "john@example.com");
 
     await expect(
-      canvas.queryByText('Please enter a valid email')
+      canvas.queryByText("Please enter a valid email"),
     ).not.toBeInTheDocument();
   },
 };
 
 export const ValidateButton: Story = {
-  render: Form,
+  render,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.click(canvas.getByRole('button', { name: /validate/i }));
+    await userEvent.click(canvas.getByRole("button", { name: /validate/i }));
 
-    await expect(canvas.getByText('Password is required')).toBeInTheDocument();
+    await expect(canvas.getByText("Password is required")).toBeInTheDocument();
 
-    await expect(canvas.getByText('Email is required')).toBeInTheDocument();
+    await expect(canvas.getByText("Email is required")).toBeInTheDocument();
   },
 };
 
 export const SubmitButton: Story = {
-  render: Form,
+  render,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.click(canvas.getByRole('button', { name: /submit/i }));
+    await userEvent.click(canvas.getByRole("button", { name: /submit/i }));
 
-    await expect(canvas.getByText('Password is required')).toBeInTheDocument();
+    await expect(canvas.getByText("Password is required")).toBeInTheDocument();
 
-    await expect(canvas.getByText('Email is required')).toBeInTheDocument();
+    await expect(canvas.getByText("Email is required")).toBeInTheDocument();
   },
 };
 
 export const ResetButton: Story = {
-  render: Form,
+  render,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    const email = canvas.getByLabelText('Email');
+    const email = canvas.getByLabelText("Email");
 
-    await userEvent.type(email, 'john@example.com');
+    await userEvent.type(email, "john@example.com");
 
-    await expect(email).toHaveValue('john@example.com');
+    await expect(email).toHaveValue("john@example.com");
 
-    await userEvent.click(canvas.getByRole('button', { name: /reset/i }));
+    await userEvent.click(canvas.getByRole("button", { name: /reset/i }));
 
-    await expect(email).toHaveValue('');
+    await expect(email).toHaveValue("");
+  },
+};
+
+export const FillButton: Story = {
+  render,
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await userEvent.click(canvas.getByRole("button", { name: /fill/i }));
+
+    await expect(canvas.getByLabelText("Default")).toHaveValue("John");
+
+    await expect(canvas.getByLabelText("Email")).toHaveValue(
+      "john@example.com",
+    );
+
+    await expect(canvas.getByLabelText("Password")).toHaveValue("Password123");
   },
 };
 ```

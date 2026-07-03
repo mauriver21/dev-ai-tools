@@ -26,6 +26,9 @@ This directory contains the executable skills (or prompt runbooks) for AI agents
 6. **[Generate Translations](./react/generate-translations/SKILL.md)**
    Automates building translated JSON catalogs for specific target languages, creating namespace indices, and registering them globally.
 
+7. **[Create Form Field Component](./react/create-form-field/SKILL.md)**
+   Automates generating standardized HOC-wrapped form field components integrated with React Hook Form and Storybook play-function test suites.
+
 ### Orchestration / Setup
 
 1. **[Install Dev AI Tools & Specs](./open-spec-install-dev-ai-tools/SKILL.md)**
