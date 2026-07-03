@@ -89,8 +89,21 @@ Do not duplicate code; copy catalog structures and the reactive provider compone
 
 ---
 
-## 4. Key Conventions Reminder
+## 4. Key Conventions & Specifications Reminder
 > [!IMPORTANT]
-> When building components, hooks, contexts, utilities, or unit tests in subsequent steps, the agent **must** follow the self-contained Folder-as-Module layout and code conventions defined in:
-> * [conventions/spec.md](../../../tech-specs/react/specs/conventions/spec.md)
+> The scaffolded application and all of its modules, components, hooks, utilities, context providers, state stores, and test suites must strictly adhere to the technical specifications defined in the workspace:
+>
+> * **[Directory Structure & Dependencies](../../../tech-specs/react/specs/structure/spec.md)**
+> * **[Component & Folder Conventions](../../../tech-specs/react/specs/conventions/spec.md)**
+> * **[Configuration Files](../../../tech-specs/react/specs/configurations/spec.md)**
+> * **[Axios Configuration](../../../tech-specs/react/specs/axios/spec.md)**
+> * **[API Clients](../../../tech-specs/react/specs/api-clients/spec.md)**
+> * **[React Redux Use Model](../../../tech-specs/react/specs/state-management/spec.md)**
+> * **[API Mocking (MSW)](../../../tech-specs/react/specs/mocks/spec.md)**
+> * **[Routing Specification](../../../tech-specs/react/specs/routing/spec.md)**
+> * **[Internationalization (i18n)](../../../tech-specs/react/specs/i18n/spec.md)**
+> * **[Styling Specification](../../../tech-specs/react/specs/styling/spec.md)**
+> * **[Testing & Storybook Setup](../../../tech-specs/react/specs/testing/spec.md)**
+> * **[Form Definition & Validation](../../../tech-specs/react/specs/react-hook-form/spec.md)**
+
 

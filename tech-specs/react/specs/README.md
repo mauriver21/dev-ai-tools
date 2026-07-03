@@ -39,4 +39,7 @@ This directory contains the technical specifications and architectural guideline
 11. **[Testing & Storybook Setup](./testing/spec.md)**
     Vitest configs, testing libraries, Storybook decorators, and redux store mocking configurations.
 
+12. **[Form Definition & Validation](./react-hook-form/spec.md)**
+    Form schemas configuration, validation rules, localized error bindings, and MUI components integration.
+
 ---

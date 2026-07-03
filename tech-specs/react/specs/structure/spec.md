@@ -11,6 +11,7 @@ src/
 ├── components/        # Reusable presentation and layout UI components (PascalCase)
 ├── constants/         # Application-level constants (e.g. routes, keys)
 ├── contexts/          # Context providers (PascalCase)
+├── form-schemas/      # Form validation schemas using Yup and react-hook-form (camelCase hooks)
 ├── hocs/              # High-order components (camelCase starting with with)
 ├── hooks/             # Custom React hooks (camelCase starting with use)
 ├── i18n/              # Localization files and translation setup
@@ -37,6 +38,7 @@ src/
 | **Styling & UI Components** | `@mui/material`, `@emotion/react`, `@emotion/styled`                               | Material-UI v5 components and styling engines         |
 | **State Management**        | `@reduxjs/toolkit`, `react-redux`, `redux-persist`, `react-redux-use-model`        | Redux store with schema persistence and Model binding |
 | **Routing**                 | `react-router-dom`                                                                 | Browser-based client-side routing                     |
+| **Forms & Validation**      | `react-hook-form`, `yup`, `@hookform/resolvers`                                    | Form state management and schema validation engine    |
 | **Localization**            | `i18next`, `react-i18next`                                                         | Multi-language translation setup                      |
 | **Networking & Comms**      | `axios`, `socket.io-client`                                                        | HTTP client and real-time socket events               |
 | **Mocking & Development**   | `msw`, `storybook`                                                                 | Local mock APIs for isolated UI building              |

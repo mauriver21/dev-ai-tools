@@ -29,6 +29,7 @@ To enable clean path imports, use path alias configurations pointing to `@/*`:
       "@/components/*": ["src/components/*"],
       "@/constants/*": ["src/constants/*"],
       "@/contexts/*": ["src/contexts/*"],
+      "@/form-schemas/*": ["src/form-schemas/*"],
       "@/hocs/*": ["src/hocs/*"],
       "@/hooks/*": ["src/hooks/*"],
       "@/interfaces/*": ["src/interfaces/*"],
