@@ -162,4 +162,11 @@ describe('useToggle', () => {
 });
 ```
 
+---
+
+## General Coding Conventions
+
+1. **Boolean Casting**: Avoid double negation (`!!value`) and prioritize using `Boolean(value)` for casting truthy/falsy expressions to boolean values (e.g., checking if error or helper states exist) to enhance code readability and clarity.
+
 [Go back to Table of Contents](../README.md)
+

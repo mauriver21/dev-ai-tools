@@ -115,6 +115,14 @@ export const withReactHookForm = <TProps extends object>(
 
 Every common form input component (e.g., `TextField`, `Select`, `Checkbox`, `DatePicker`) should be wrapped in `withReactHookForm`. The wrapped component handles extracting errors and validation messages from `fieldState` automatically.
 
+### Visual Reference for Components Layout & Highlighting
+
+Use the screenshots below to match layout designs, border highlights, error colors, helper text positions, and spacing standards:
+
+![Form Components Showcase](./resources/images/form-components-showcase.png)
+
+![Single Checkbox Validation](./resources/images/single-checkbox.png)
+
 ### Example Wrapped Component: `src/components/TextField/index.tsx`
 
 ```tsx
