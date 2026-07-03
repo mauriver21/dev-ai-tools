@@ -57,8 +57,14 @@ Configure configurations and versions:
 4. **.gitignore**: Setup exclusions matching [configurations/spec.md#5-version-control-exclusions-gitignore](../../../tech-specs/react/specs/configurations/spec.md#5-version-control-exclusions-gitignore).
 
 ### Step 5: Clean Default Assets
-Clean up Vite's default templates, empty the contents of `src/index.css`, and replace `src/App.tsx` with a basic Hello World layout matching the specification:
-* [configurations/spec.md#3-react-app-cleanup](../../../tech-specs/react/specs/configurations/spec.md#3-react-app-cleanup)
+Clean up Vite's default templates, empty the contents of `src/index.css`, and replace `src/App.tsx` with a refined Hello World layout that implements the theme selector and mode toggle switch layout illustrated in the wireframe:
+* **Wireframe Layout Source**: [hello-world-layout.png](./resources/images/hello-world-layout.png)
+* **Code Specification**: [configurations/spec.md#3-react-app-cleanup](../../../tech-specs/react/specs/configurations/spec.md#3-react-app-cleanup)
+
+Ensure that:
+1. The top header/app bar contains a Dropdown menu (`Select`) to select the active theme (e.g. `'default'`, `'ocean'`, `'sunset'`) and a Switch toggle to alternate between light and dark mode.
+2. Changes to the theme select and mode toggle are dispatched to Redux state using the standard `useAppModel()` hook to update the global theme.
+3. The main page area renders a centered Card element displaying "Hello World!" in a prominent Typography block.
 
 ### Step 6: Setup Internationalization (i18n)
 Configure namespaces, catalogs, dynamic translations indexes, and the custom reactive translations wrapper component.

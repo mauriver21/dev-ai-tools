@@ -108,34 +108,147 @@ Immediately after scaffolding the React application using Vite, perform the foll
 - Delete `src/assets/react.svg`.
 - Empty the contents of `src/index.css` and use it only for root global style resets (e.g., margins, box-sizing).
 
-### 2. Scaffold a Simple Hello World Layout (`src/App.tsx`)
+#### 2. Scaffold Initial Application Structure & Layout
 
-Replace `src/App.tsx` with a basic layout structure rendering a hello world message:
+Immediately after scaffolding, configure the initial pages, layouts, and routing arrays. This splits the theme selector and mode toggle header from the home page content, routing via React Router DOM.
 
+#### 1. Home Page Component (`src/pages/Home/index.tsx`)
 ```tsx
 import React from 'react';
-import { Box, Typography, Container } from '@mui/material';
+import { Card, CardContent, Typography, Container } from '@mui/material';
 
-export const App: React.FC = () => {
+export const Home: React.FC = () => {
   return (
-    <Container maxWidth="lg">
-      <Box
-        sx={{
-          my: 4,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <Typography variant="h4" component="h1" gutterBottom>
-          Hello World
-        </Typography>
-        <Typography variant="body1">
-          Welcome to the clean Vite + React + Material UI boilerplate.
-        </Typography>
-      </Box>
+    <Container
+      maxWidth="lg"
+      sx={{
+        flexGrow: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        py: 4,
+      }}
+    >
+      <Card sx={{ minWidth: 300, textAlign: 'center', p: 4, borderRadius: 2 }}>
+        <CardContent>
+          <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
+            Hello World!
+          </Typography>
+          <Typography color="text.secondary">
+            Welcome to the clean Vite + React + Material UI boilerplate.
+          </Typography>
+        </CardContent>
+      </Card>
     </Container>
   );
+};
+```
+
+#### 2. Main Layout Component (`src/layouts/MainLayout/index.tsx`)
+This layout wraps child views with a header bar that provides the global theme select dropdown and light/dark mode switch, rendering child components inside the `<Outlet />` element matching [hello-world-layout.png](../../../skills/react/scaffold-app/resources/images/hello-world-layout.png):
+```tsx
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Outlet } from 'react-router-dom';
+import { 
+  Box, 
+  AppBar, 
+  Toolbar, 
+  Select, 
+  MenuItem, 
+  FormControl, 
+  InputLabel, 
+  Switch, 
+  FormControlLabel 
+} from '@mui/material';
+import { useAppModel } from '@/models/useAppModel';
+
+export const MainLayout: React.FC = () => {
+  const dispatch = useDispatch();
+  const appModel = useAppModel();
+  const appState = useSelector(appModel.selectAppState);
+
+  const activeThemeName = appState.theme || 'default';
+  const activeMode = appState.mode || 'light';
+
+  const handleThemeChange = (event: any) => {
+    dispatch(appModel.setTheme(event.target.value));
+  };
+
+  const handleModeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const nextMode = event.target.checked ? 'dark' : 'light';
+    dispatch(appModel.setMode(nextMode));
+  };
+
+  return (
+    <Box sx={{ flexGrow: 1, minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: 'background.default' }}>
+      <AppBar position="static" color="default" elevation={1}>
+        <Toolbar sx={{ justifyContent: 'flex-end', gap: 2 }}>
+          <FormControl size="small" sx={{ minWidth: 120 }}>
+            <InputLabel id="theme-select-label">Theme</InputLabel>
+            <Select
+              labelId="theme-select-label"
+              id="theme-select"
+              value={activeThemeName}
+              label="Theme"
+              onChange={handleThemeChange}
+            >
+              <MenuItem value="default">Default</MenuItem>
+              <MenuItem value="ocean">Ocean</MenuItem>
+              <MenuItem value="sunset">Sunset</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={activeMode === 'dark'}
+                onChange={handleModeChange}
+                color="primary"
+              />
+            }
+            label={activeMode === 'dark' ? 'Dark' : 'Light'}
+          />
+        </Toolbar>
+      </AppBar>
+      <Box component="main" sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+        <Outlet />
+      </Box>
+    </Box>
+  );
+};
+```
+
+#### 3. Routing Configuration (`src/routes/index.tsx`)
+```tsx
+import React from 'react';
+import { RouteObject } from 'react-router-dom';
+import { MainLayout } from '@/layouts/MainLayout';
+import { Home } from '@/pages/Home';
+
+export const routes: RouteObject[] = [
+  {
+    path: '/',
+    element: <MainLayout />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+    ],
+  },
+];
+```
+
+#### 4. App Entrypoint (`src/App.tsx`)
+`App.tsx` serves as the router mount point, consuming and resolving the active route configurations:
+```tsx
+import React from 'react';
+import { useRoutes } from 'react-router-dom';
+import { routes } from '@/routes';
+
+export const App: React.FC = () => {
+  const element = useRoutes(routes);
+  return element;
 };
 ```
 

@@ -157,20 +157,26 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({
 
 ## 4. Bootstrapping Flow (`main.tsx`)
 
-Import translations, pass them into the custom provider, and hydrate the React DOM.
+Import translations, configure the provider wrappers, and hydrate the React DOM.
 
 ```tsx
 import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import { App } from './App';
 import { Provider } from 'react-redux';
 import { I18nProvider } from '@/components/I18nProvider';
+import { ThemeProvider } from '@/components/ThemeProvider';
 import { store } from '@/store';
 import * as resources from '@/i18n/translations';
 
 createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
     <I18nProvider resources={resources}>
-      <App />
+      <ThemeProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ThemeProvider>
     </I18nProvider>
   </Provider>
 );

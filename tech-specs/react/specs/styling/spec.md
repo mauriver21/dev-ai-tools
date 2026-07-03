@@ -152,22 +152,13 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 };
 ```
 
-### App Component Integration (`src/App.tsx`)
 
-Render the custom `ThemeProvider` around your application routes:
+### Integration
 
-```tsx
-import React from "react";
-import { ThemeProvider } from "@/components/ThemeProvider";
-import { useRoutes } from "react-router-dom";
-import { routes } from "@/routes";
-
-export const App: React.FC = () => {
-  const element = useRoutes(routes);
-
-  return <ThemeProvider>{element}</ThemeProvider>;
-};
-```
+The custom `ThemeProvider` must be registered globally at the application hydration entrypoint (`src/main.tsx`) wrapping the router tree, to ensure theme selection variables are reactive. For the exact wrappers layout, refer to:
+* [configurations/spec.md#2-scaffold-initial-application-structure--layout](../configurations/spec.md#2-scaffold-initial-application-structure--layout)
+* [i18n/spec.md#4-bootstrapping-flow-maintsx](../i18n/spec.md#4-bootstrapping-flow-maintsx)
+* [routing/spec.md#1-routing-context-setup-browserrouter](../routing/spec.md#1-routing-context-setup-browserrouter)
 
 ---
 

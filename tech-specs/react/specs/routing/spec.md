@@ -13,13 +13,24 @@ To enable routing capabilities across the application, the root application tree
 ```tsx
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import { Provider as ReduxProvider } from "react-redux";
 import { App } from "./App";
+import { store } from "@/store";
+import { I18nProvider } from "@/components/I18nProvider";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import * as resources from "@/i18n/translations";
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <ReduxProvider store={store}>
+    <I18nProvider resources={resources}>
+      <ThemeProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ThemeProvider>
+    </I18nProvider>
+  </ReduxProvider>,
 );
 ```
 
