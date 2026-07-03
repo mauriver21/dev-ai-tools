@@ -225,4 +225,45 @@ export const {{themeName}}Theme = createTheme({
 
 ---
 
+## 6. Theme Showcase Storybook Integration
+
+To verify visual changes, overrides alignment, and dark/light switching correctness inside Storybook, create a story file for the `ThemeProvider`. The story **must** render a showcase containing diverse visible MUI components (Buttons, Typography, Form Controls, Cards, Dialogs, etc.) without cluttering the specification document with internal component rendering code.
+
+### File: `src/components/ThemeProvider/index.stories.tsx`
+
+```typescript
+import React from 'react';
+import { Meta, StoryObj } from '@storybook/react';
+import { ThemeProvider } from './index';
+// Import any desired MUI components to populate the showcase layout...
+
+const meta: Meta<typeof ThemeProvider> = {
+  title: 'Components/ThemeProvider',
+  component: ThemeProvider,
+};
+
+export default meta;
+type Story = StoryObj<typeof ThemeProvider>;
+
+export const ThemeShowcase: Story = {
+  render: () => (
+    <ThemeProvider>
+      {/* 
+        Render a comprehensive component showcase wrapper.
+        The wrapper must include a grid displaying diverse MUI components to check how 
+        they change dynamically when switching themes/modes inside Storybook:
+        
+        1. Typography: H1, H4, Subtitle1, Body1, Caption.
+        2. Buttons: Primary & Secondary (Contained, Outlined, and Text variants).
+        3. Forms: TextField, Checkbox, RadioGroup, Select, and Switch inputs.
+        4. Containers: MuiCard (with CardContent and CardActions) and MuiPaper.
+        5. Feedback: Alerts (Success, Warning, Error, Info) and a simple Button trigger for Dialog.
+      */}
+    </ThemeProvider>
+  ),
+};
+```
+
+---
+
 [Go back to Table of Contents](../README.md)

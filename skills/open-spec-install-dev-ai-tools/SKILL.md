@@ -58,6 +58,7 @@ cp -r tmp-dev-ai-tools/skills/react/configure-axios .agent/skills/react-configur
 cp -r tmp-dev-ai-tools/skills/react/create-api-client .agent/skills/react-create-api-client
 cp -r tmp-dev-ai-tools/skills/react/scaffold-app .agent/skills/react-scaffold-app
 cp -r tmp-dev-ai-tools/skills/react/create-mock .agent/skills/react-create-mock
+cp -r tmp-dev-ai-tools/skills/react/create-theme .agent/skills/react-create-theme
 ```
 
 ### Step 5: Rewrite Relative Paths in Skills
