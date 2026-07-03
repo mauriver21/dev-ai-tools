@@ -18,9 +18,11 @@ src/
 │   │   └── index.ts        # Login schema definition exporting the useLoginSchema hook
 │   └── useProfileSchema/
 │       └── index.ts        # Profile schema definition exporting the useProfileSchema hook
-└── hocs/
-    └── withReactHookForm/
-        └── index.tsx       # HOC to automatically inject React Hook Form controllers
+├── hocs/
+│   └── withReactHookForm/
+│       └── index.tsx       # HOC to automatically inject React Hook Form controllers
+└── interfaces/
+    └── LoginFormData.ts    # Type definition for the login form data (LoginFormData)
 ```
 
 ---
@@ -49,6 +51,15 @@ export const useLoginSchema = () => {
       .min(6, t("login.errors.passwordLength")),
   });
 };
+```
+
+### Form Interface Definition: `src/interfaces/LoginFormData.ts`
+
+```typescript
+import * as yup from "yup";
+import { useLoginSchema } from "@/form-schemas/useLoginSchema";
+
+export type LoginFormData = yup.InferType<ReturnType<typeof useLoginSchema>>;
 ```
 
 ---
@@ -167,6 +178,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useLoginSchema } from "@/form-schemas/useLoginSchema";
 import { TextField } from "@/components/TextField";
+import { LoginFormData } from "@/interfaces/LoginFormData";
 
 export const LoginForm: React.FC = () => {
   const loginSchema = useLoginSchema();
@@ -175,7 +187,7 @@ export const LoginForm: React.FC = () => {
     control,
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm({
+  } = useForm<LoginFormData>({
     resolver: yupResolver(loginSchema),
     defaultValues: {
       email: "",
@@ -183,17 +195,8 @@ export const LoginForm: React.FC = () => {
     },
   });
 
-  const onSubmit = async (data: any) => {
-    try {
-      // Execute your API login request here
-      console.log("Form Submitted Data:", data);
-    } catch (error) {
-      console.error("Submission failed", error);
-    }
-  };
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(console.log)}>
       {/* Field automatically registers with React Hook Form using name and control */}
       <TextField name="email" control={control} label="Email Address" />
       <TextField
@@ -412,8 +415,16 @@ export const FillButton: Story = {
 
     await expect(canvas.getByLabelText("Default")).toHaveValue("John");
 
+    await expect(canvas.getByLabelText("With Helper Text")).toHaveValue(
+      "Some helper text",
+    );
+
     await expect(canvas.getByLabelText("Email")).toHaveValue(
       "john@example.com",
+    );
+
+    await expect(canvas.getByLabelText(/Required/i)).toHaveValue(
+      "Required value",
     );
 
     await expect(canvas.getByLabelText("Password")).toHaveValue("Password123");
