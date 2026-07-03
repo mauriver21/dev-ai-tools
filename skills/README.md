@@ -17,6 +17,9 @@ This directory contains the executable skills (or prompt runbooks) for AI agents
 3. **[Scaffold React Application](./react/scaffold-app/SKILL.md)**
    Automates the end-to-end scaffolding of a premium React + Vite + TS + Material-UI + Redux + MSW + Storybook project.
 
+4. **[Create API Mock (MSW)](./react/create-mock/SKILL.md)**
+   Automates generating mutable mock database seeds, CRUD handlers, and registration setups in the mocks module.
+
 ### Orchestration / Setup
 
 1. **[Install Dev AI Tools & Specs](./open-spec-install-dev-ai-tools/SKILL.md)**

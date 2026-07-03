@@ -37,7 +37,7 @@ Read the template code directly from section 3 ("Reference Boilerplate") of:
 Replace all placeholder variables:
 * `{{EntityName}}` with the PascalCase entity name.
 * `{{EndpointPath}}` with the API endpoint path.
-* `{{clientName}}` with the configured Axios client prefix (typically `local` or custom name).
+* `{{clientName}}` with the configured Axios client prefix (typically `acme` or custom name).
 
 ### Step 4: Write Unit Test File (`index.test.ts`)
 Create a Vitest test suite at `src/api-clients/use{{EntityName}}ApiClient/index.test.ts` using MSW.

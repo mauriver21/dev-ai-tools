@@ -57,6 +57,7 @@ For each technology category (like `react`), copy its skills into the `.agent/sk
 cp -r tmp-dev-ai-tools/skills/react/configure-axios .agent/skills/react-configure-axios
 cp -r tmp-dev-ai-tools/skills/react/create-api-client .agent/skills/react-create-api-client
 cp -r tmp-dev-ai-tools/skills/react/scaffold-app .agent/skills/react-scaffold-app
+cp -r tmp-dev-ai-tools/skills/react/create-mock .agent/skills/react-create-mock
 ```
 
 ### Step 5: Rewrite Relative Paths in Skills

@@ -11,8 +11,8 @@ Generate a custom pre-configured Axios instance under `src/utils/{{clientName}}A
 
 ## 2. Inputs Needed
 Before executing, the agent must identify:
-* **clientName**: The camelCase name representing the client type/purpose (e.g., `local` to create `localAxios`, `public` to create `publicAxios`).
-* **CLIENT_NAME**: The UPPERCASE representation of the clientName (e.g., `LOCAL` or `PUBLIC`).
+* **clientName**: The camelCase name representing the client type/purpose (e.g., `acme` to create `acmeAxios`, `public` to create `publicAxios`).
+* **CLIENT_NAME**: The UPPERCASE representation of the clientName (e.g., `ACME` or `PUBLIC`).
 
 ---
 
@@ -32,8 +32,8 @@ Do not duplicate code; read the template and naming conventions directly from:
 * [axios.md](../../../tech-specs/react/specs/axios/spec.md#2-axios-configuration)
 
 Replace:
-* `{{clientName}}` with the camelCase client name (e.g., `local`).
-* `{{CLIENT_NAME}}` with the UPPERCASE representation (e.g., `LOCAL`).
+* `{{clientName}}` with the camelCase client name (e.g., `acme`).
+* `{{CLIENT_NAME}}` with the UPPERCASE representation (e.g., `ACME`).
 
 ### Step 3: Declare Environment Variable
 Verify or add the environment variable declaration in the project's environment configuration files (e.g., `.env.dev`, `.env.prod`) using Vite's prefix convention:
