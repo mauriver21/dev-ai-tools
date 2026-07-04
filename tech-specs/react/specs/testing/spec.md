@@ -3,6 +3,7 @@
 ## Testing Strategy
 - **Logical Helpers/Hooks/Utilities**: Must have corresponding unit tests (`index.test.ts`).
 - **UI Components**: Must have Storybook stories (`index.stories.tsx`). If the component has no state/logic and can be tested visually using Storybook, the `index.test.tsx` file is **optional**. Only add `index.test.tsx` if the component contains logical operations, handlers, or custom interactions requiring assertion validation.
+- **Agent Testing Efficiency**: To optimize execution speed and cost, AI agents must ONLY run quality checks and test suites when they are about to complete the final task of their plan. Running tests repeatedly after intermediate steps is prohibited. If the final quality check or test run fails, the agent must iterate on troubleshooting and fixing errors until all checks and tests pass successfully.
 
 ## 1. Vitest & RTL Packages
 

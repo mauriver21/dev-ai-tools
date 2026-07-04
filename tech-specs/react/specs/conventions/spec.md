@@ -168,6 +168,8 @@ describe('useToggle', () => {
 
 1. **Boolean Casting**: Avoid double negation (`!!value`) and prioritize using `Boolean(value)` for casting truthy/falsy expressions to boolean values (e.g., checking if error or helper states exist) to enhance code readability and clarity.
 2. **SVG & External Library Icons**: All SVG icons or icons from external libraries MUST be declared inside the `src/assets/icons/` folder, following the nomenclature `{{IconName}}Icon.tsx` (e.g., `HomeIcon.tsx`, `SearchIcon.tsx`).
+3. **Import & Export Conventions**: Always prioritize named exports (e.g., `export const MyComponent = ...`) and named imports (e.g., `import { MyComponent } from './MyComponent'`) instead of default exports/imports to facilitate cleaner refactoring, robust tree-shaking, and predictable auto-imports in the IDE.
+4. **Function Definitions**: Declare components, hooks, and helpers as arrow functions (e.g., `export const MyComponent: React.FC = () => { ... }`) to maintain syntax consistency across the application.
 
 [Go back to Table of Contents](../README.md)
 

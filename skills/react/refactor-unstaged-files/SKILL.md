@@ -33,20 +33,18 @@ Filter the output to target only source files (e.g., `.ts`, `.tsx`, `.js`, `.jsx
 For each identified file, apply the relevant technical specifications:
 
 1. **Folder-as-Module Layout**:
-   * If the file is a component (e.g., `src/components/MyComponent.tsx`), refactor it into a self-contained folder structure:
+   * Refactor all logical modules (components, hooks, utilities, context providers, HOCs, API clients, state slices, etc.) into self-contained folders where the entry file is named `index.ts` or `index.tsx`:
      ```text
-     src/components/MyComponent/
-     ├── index.tsx              # Main component implementation and exports
-     ├── index.css              # Component-specific styles (if any)
-     ├── index.test.tsx         # Unit tests (using Vitest)
-     └── index.stories.tsx      # Isolated Storybook scenarios
+     src/{{folderName}}/{{moduleName}}/
+     ├── index.ts (or index.tsx)    # Main module implementation and exports
+     ├── index.css (if styling is needed)
+     ├── index.test.ts (or .test.tsx) # Unit tests (if applicable)
+     └── index.stories.tsx (if UI component showcase is needed)
      ```
-   * If the file is a custom hook (e.g., `src/hooks/useMyHook.ts`), refactor it into:
-     ```text
-     src/hooks/useMyHook/
-     ├── index.ts               # Hook implementation and exports
-     └── index.test.ts          # Unit tests (using Vitest)
-     ```
+   * Examples:
+     * **Components** (e.g., `src/components/MyComponent.tsx`): Move to `src/components/MyComponent/index.tsx` (along with `index.css`, `index.test.tsx`, and `index.stories.tsx` as needed).
+     * **Hooks** (e.g., `src/hooks/useMyHook.ts`): Move to `src/hooks/useMyHook/index.ts` (along with `index.test.ts`).
+     * **Others (utilities, contexts, hocs, api-clients, states, etc.)**: Move from `src/{{folder}}/myModule.ts` to `src/{{folder}}/myModule/index.ts` (or `index.tsx`).
    * References: [conventions/spec.md](../../../tech-specs/react/specs/conventions/spec.md) and [structure/spec.md](../../../tech-specs/react/specs/structure/spec.md).
 
 2. **Types and Interfaces Separation**:
@@ -77,6 +75,10 @@ For each identified file, apply the relevant technical specifications:
    * Ensure any custom style rules or Material-UI component overrides align with styling palettes and the design system in [styling/spec.md](../../../tech-specs/react/specs/styling/spec.md).
 
 ### Step 3: Run Quality Checks
+
+> [!IMPORTANT]
+> To optimize execution efficiency, ONLY run these quality checks and tests when you are about to complete the final task of the plan. Running checks repeatedly after intermediate changes is prohibited. If the final checks fail, continue working to debug and fix errors until all checks and tests pass successfully.
+
 Verify the code builds correctly and all checks pass. Run the following in the project root:
 1. **Type Check**:
    ```bash

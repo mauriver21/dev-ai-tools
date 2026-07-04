@@ -63,6 +63,9 @@ Adapt the test suite stories (`Overview`, `ValidationOnBlur`, `ValidationOnChang
 
 ### Step 5: Verify Interaction Tests
 
+> [!IMPORTANT]
+> To optimize execution efficiency, ONLY run this verification check when you are about to complete the final task of the plan. Running checks repeatedly after intermediate changes is prohibited. If the final verification check fails, continue working to debug and fix errors until all tests pass successfully.
+
 Verify that the new component passes all Storybook interaction tests. Launch Storybook locally (or run the Storybook test runner command, e.g., `npm run test-storybook`) and ensure that all interaction stories (`ValidationOnBlur`, `ValidationOnChange`, `ValidateButton`, `SubmitButton`, `ResetButton`, and `FillButton`) execute and pass without errors.
 
 ### Step 6: Export the Component
