@@ -18,19 +18,18 @@ To ensure design consistency, component flexibility, and perfect light/dark mode
 
 ## 2. Multi-Theme Directory Layout
 
-Organize your design tokens and themes inside the `src/assets/` directory using generic templates:
+Organize your design tokens and themes inside the `src/themes/` directory using generic templates:
 
 ```text
-src/assets/
-└── themes/
-    ├── default/
-    │   ├── light.ts        # Default light palette tokens
-    │   ├── dark.ts         # Default dark palette tokens
-    │   └── index.ts        # Compiles default theme
-    └── {{themeName}}/
-        ├── light.ts        # Custom theme light palette tokens
-        ├── dark.ts         # Custom theme dark palette tokens
-        └── index.ts        # Compiles custom theme
+src/themes/
+├── default/
+│   ├── light.ts        # Default light palette tokens
+│   ├── dark.ts         # Default dark palette tokens
+│   └── index.ts        # Compiles default theme
+└── {{themeName}}/
+    ├── light.ts        # Custom theme light palette tokens
+    ├── dark.ts         # Custom theme dark palette tokens
+    └── index.ts        # Compiles custom theme
 ```
 
 ---
@@ -39,7 +38,7 @@ src/assets/
 
 Define separate light and dark configurations for each theme, then compile them using MUI's `createTheme`.
 
-### 1. Default Theme Palettes (`src/assets/themes/default/light.ts`)
+### 1. Default Theme Palettes (`src/themes/default/light.ts`)
 
 ```typescript
 import { PaletteOptions } from "@mui/material";
@@ -69,7 +68,7 @@ export const lightPalette: PaletteOptions = {
 };
 ```
 
-### 2. Default Theme Compiler (`src/assets/themes/default/index.ts`)
+### 2. Default Theme Compiler (`src/themes/default/index.ts`)
 
 ```typescript
 import { createTheme } from "@mui/material/styles";
@@ -91,7 +90,7 @@ export const defaultDarkTheme = createTheme({
 });
 ```
 
-### 3. Global Themes Aggregator (`src/assets/themes/index.ts`)
+### 3. Global Themes Aggregator (`src/themes/index.ts`)
 
 ```typescript
 import { defaultLightTheme, defaultDarkTheme } from "./default";
@@ -126,7 +125,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { ThemeProvider as MuiThemeProvider, CssBaseline } from "@mui/material";
 import { useAppModel } from "@/models/useAppModel";
-import { themes } from "@/assets/themes";
+import { themes } from "@/themes";
 
 export interface ThemeProviderProps {
   children?: React.ReactNode;

@@ -23,6 +23,7 @@ src/
 ├── pages/             # Route-level page components (views)
 ├── routes/            # Application route definitions and routing system
 ├── states/            # Redux store slices (state definitions, actions, reducers)
+├── themes/            # MUI theme configurations and light/dark mode palettes
 ├── utils/             # Reusable utility functions and helper methods (camelCase)
 ├── main.tsx           # Application entrypoint (bootstrap and React hydration)
 ├── setupTests.ts      # Vitest test framework setup and global assertions

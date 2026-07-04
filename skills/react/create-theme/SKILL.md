@@ -5,7 +5,7 @@ This skill automates the creation and registration of a custom Material UI theme
 ---
 
 ## 1. Goal
-Generate a custom theme module containing design tokens and component overrides under `src/assets/themes/{{themeName}}/` and register it globally.
+Generate a custom theme module containing design tokens and component overrides under `src/themes/{{themeName}}/` and register it globally.
 
 ---
 
@@ -33,23 +33,23 @@ If the user provides a `themeImage`:
 ### Step 2: Create Theme Directory
 Create the target theme module directory:
 ```text
-src/assets/themes/{{themeName}}/
+src/themes/{{themeName}}/
 ```
 
 ### Step 3: Write Light mode Palette
-Create `src/assets/themes/{{themeName}}/light.ts` to define the light palette.
+Create `src/themes/{{themeName}}/light.ts` to define the light palette.
 Read the structure blueprint directly from:
-* [styling/spec.md#1-default-theme-palettes-srcassetsthemesdefaultlightts](../../../tech-specs/react/specs/styling/spec.md#1-default-theme-palettes-srcassetsthemesdefaultlightts)
+* [styling/spec.md#1-default-theme-palettes-srcthemesdefaultlightts](../../../tech-specs/react/specs/styling/spec.md#1-default-theme-palettes-srcthemesdefaultlightts)
 
 Replace colors with the custom light palette hex values.
 
 ### Step 4: Write Dark mode Palette
-Create `src/assets/themes/{{themeName}}/dark.ts` to define the dark palette. Use the same structure format, replacing values with custom dark palette hex values and setting `mode: 'dark'`.
+Create `src/themes/{{themeName}}/dark.ts` to define the dark palette. Use the same structure format, replacing values with custom dark palette hex values and setting `mode: 'dark'`.
 
 ### Step 5: Write Compiler File (`index.ts`)
-Create the theme compiler file at `src/assets/themes/{{themeName}}/index.ts`.
+Create the theme compiler file at `src/themes/{{themeName}}/index.ts`.
 Do not duplicate code; implement the theme compiler utilizing the template in:
-* [styling/spec.md#2-default-theme-compiler-srcassetsthemesdefaultindexts](../../../tech-specs/react/specs/styling/spec.md#2-default-theme-compiler-srcassetsthemesdefaultindexts)
+* [styling/spec.md#2-default-theme-compiler-srcthemesdefaultindexts](../../../tech-specs/react/specs/styling/spec.md#2-default-theme-compiler-srcthemesdefaultindexts)
 
 Ensure you:
 1. Import `lightPalette` from `./light` and `darkPalette` from `./dark`.
@@ -57,7 +57,7 @@ Ensure you:
 3. Export two compiled themes: `export const {{themeName}}LightTheme = createTheme(...)` and `export const {{themeName}}DarkTheme = createTheme(...)`.
 
 ### Step 6: Register Theme Globally
-Register the new theme inside the global aggregator file (`src/assets/themes/index.ts`):
+Register the new theme inside the global aggregator file (`src/themes/index.ts`):
 1. Import `{{themeName}}LightTheme` and `{{themeName}}DarkTheme` from `./{{themeName}}`.
 2. Update the `ThemeType` type definition to include the string literal `'{{themeName}}'`.
 3. Add the mapping to the `themes` record:
