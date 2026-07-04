@@ -17,6 +17,7 @@ src/
 ├── models/            # Domain classes and entities
 ├── repositories/      # Database access layers (Drizzle queries and transactions)
 ├── routes/            # API routing entrypoints (divided into public and private)
+├── singletons/        # Unique shared instances
 ├── utils/             # Helper libraries (file helpers, hashing, string formatters)
 ├── validators/        # Request payload validation schemas (e.g. Yup or Zod)
 ├── index.ts           # Server entrypoint bootstrapping Express & WebSockets

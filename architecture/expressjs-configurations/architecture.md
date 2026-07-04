@@ -71,4 +71,21 @@ startServer().catch((error) => {
 });
 ```
 
+---
+
+## 3. Code Formatting Config (`.prettierrc`)
+
+To enforce uniform styles across the codebase, check in a root `.prettierrc` file configured to match the developer handbook rules (2-space indents, single quotes, required semicolons):
+
+```json
+{
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "useTabs": false,
+  "trailingComma": "es5",
+  "printWidth": 80
+}
+```
+
 [Go back to Table of Contents](./spec.md)

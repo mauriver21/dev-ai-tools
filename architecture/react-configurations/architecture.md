@@ -275,7 +275,7 @@ To enforce uniform styles across the codebase, check in a root `.prettierrc` fil
   "tabWidth": 2,
   "useTabs": false,
   "trailingComma": "es5",
-  "printWidth": 80
+  "printWidth": 120
 }
 ```
 
