@@ -12,12 +12,13 @@ src/
 ├── db/                # Database connections and ORM schema configurations
 │   ├── schema/        # Table schema definitions (entities)
 │   └── index.ts       # Database client initialization
+├── interfaces/        # Shared TypeScript interfaces and contracts
 ├── middlewares/       # Request interceptors (auth checks, logs, global error handling)
 ├── models/            # Domain classes and entities
 ├── repositories/      # Database access layers (Drizzle queries and transactions)
 ├── routes/            # API routing entrypoints (divided into public and private)
 ├── utils/             # Helper libraries (file helpers, hashing, string formatters)
-├── validators/        # Request payload validation schemas (e.g., Yup or Zod)
+├── validators/        # Request payload validation schemas (e.g. Yup or Zod)
 ├── index.ts           # Server entrypoint bootstrapping Express & WebSockets
 ├── migrate.ts         # Direct database migration execution script
 └── singleton.ts       # Singleton instance exports (app instance, socket connection)
