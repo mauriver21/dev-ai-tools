@@ -32,7 +32,7 @@ Follow these steps to perform the skill:
 
 Ensure that the `withReactHookForm` HOC is defined under `src/hocs/withReactHookForm/index.tsx`. If it doesn't exist, read the HOC implementation from:
 
-- [react-hook-form spec.md](../../../tech-specs/react/specs/react-hook-form/spec.md#3-the-withreacthookform-higher-order-component)
+- [react-hook-form spec.md](architecture/react/specs/react-hook-form/spec.md#3-the-withreacthookform-higher-order-component)
 
 ### Step 2: Create Folder
 
@@ -47,7 +47,7 @@ src/components/{{FieldName}}/
 Create the implementation file at `src/components/{{FieldName}}/index.tsx` following the wrapper pattern.
 Read the reference template directly from section 4 ("Wrapping Base Components") of:
 
-- [react-hook-form spec.md](../../../tech-specs/react/specs/react-hook-form/spec.md#4-wrapping-base-components)
+- [react-hook-form spec.md](architecture/react/specs/react-hook-form/spec.md#4-wrapping-base-components)
 
 Adapt the template for your specific `{{MuiComponent}}`:
 
@@ -55,14 +55,14 @@ Adapt the template for your specific `{{MuiComponent}}`:
 2. Apply the custom error and helper text logic: calculate `error` using `fieldState?.invalid` and `errorMessage` using `fieldState?.error?.message`.
 3. Pass `fullWidth` as default.
 4. Disable native browser validation by applying `required` only to label/visual subcomponents (like `slotProps.inputLabel` for input components) instead of letting it propagate to the raw input element.
-5. Consult the [Visual Reference for Components Layout & Highlighting](../../../tech-specs/react/specs/react-hook-form/spec.md#visual-reference-for-components-layout--highlighting) to ensure component borders, text, spacing, and error highlightings match the spec's showcase screenshots.
+5. Consult the [Visual Reference for Components Layout & Highlighting](architecture/react/specs/react-hook-form/spec.md#visual-reference-for-components-layout--highlighting) to ensure component borders, text, spacing, and error highlightings match the spec's showcase screenshots.
 
 ### Step 4: Write Storybook Interaction Tests (`index.stories.tsx`)
 
 Create `src/components/{{FieldName}}/index.stories.tsx` using Storybook Play functions. This test suite must verify validation behavior.
 Read the reference testing suite directly from section 6 ("Testing Form Field Components (Storybook)") of:
 
-- [react-hook-form spec.md](../../../tech-specs/react/specs/react-hook-form/spec.md#6-testing-form-field-components-storybook)
+- [react-hook-form spec.md](architecture/react/specs/react-hook-form/spec.md#6-testing-form-field-components-storybook)
 
 Adapt the test suite stories (`Overview`, `ValidationOnBlur`, `ValidationOnChange`, `ValidateButton`, `SubmitButton`, `ResetButton`, and `FillButton`) to target the `{{FieldName}}` component instead of `TextField`.
 

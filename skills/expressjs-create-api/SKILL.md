@@ -1,13 +1,13 @@
 ---
 name: expressjs-create-api
-description: Create a complete CRUD API following the Express.js conventions defined in expressjs/conventions/spec.md.
+description: Create a complete CRUD API following the Express.js conventions defined in architecture/expressjs-conventions/spec.md.
 ---
 
 # Create API
 
 Create a complete CRUD API for `{{EntityName}}` by following the conventions documented in:
 
-- `expressjs/conventions/spec.md`
+- `architecture/expressjs-conventions/spec.md`
 
 Do not generate your own architecture or patterns. Follow the specification exactly.
 
