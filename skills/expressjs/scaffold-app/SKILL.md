@@ -1,10 +1,9 @@
-# skill-expressjs-scaffolding
+---
+name: scaffold-app
+description: Scaffold a new Express.js application by following the architecture, conventions, and implementation details documented in `tech-specs/expressjs`.
+---
 
-## Purpose
-
-Scaffold a new Express.js application by following the architecture, conventions, and implementation details documented in `tech-specs/expressjs`.
-
-## Instructions
+## Steps
 
 - Read and understand every specification under `tech-specs/expressjs` before generating code.
 - Detect whether the current repository is already a monorepo.

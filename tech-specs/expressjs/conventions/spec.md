@@ -250,4 +250,62 @@ apiRouter.get(
 export { apiRouter };
 ```
 
+---
+
+# General Coding Conventions
+
+The following conventions apply to every backend layer unless a library or framework explicitly requires a different approach.
+
+## Function Declaration Rule
+
+Prioritize **function expressions** over function declarations.
+
+✅ Preferred
+
+```typescript
+const create = async () => {};
+```
+
+❌ Avoid
+
+```typescript
+async function create() {}
+```
+
+---
+
+## Export Rule
+
+Prioritize **named exports** and avoid `export default`.
+
+✅ Preferred
+
+```typescript
+export const create{{EntityName}}Controller = () => {};
+```
+
+❌ Avoid
+
+```typescript
+export default create{{EntityName}}Controller;
+```
+
+---
+
+## Import Rule
+
+Prioritize **named imports** over default imports whenever possible. Modules should expose named exports so they can be imported consistently throughout the project.
+
+✅ Preferred
+
+```typescript
+import { create{{EntityName}}Repository } from "@/repositories/create{{EntityName}}Repository";
+```
+
+❌ Avoid
+
+```typescript
+import create{{EntityName}}Repository from "@/repositories/create{{EntityName}}Repository";
+```
+
 [Go back to Table of Contents](./spec.md)
