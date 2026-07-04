@@ -14,19 +14,5 @@ It consists of two main pillars:
 ```text
 dev-ai-tools/
 ├── skills/               # AI runbooks and executable skills
-│   └── README.md         # Skills Table of Contents
-└── tech-specs/           # Architectural specifications and standards
-    └── README.md         # Tech Specs Table of Contents
+└── specs/           # Architectural specifications and standards
 ```
-
----
-
-## Table of Contents
-
-### 1. Technical Specifications
-- **[Technical Specifications Index](./tech-specs/README.md)**: Main index file linking specifications and architectural standards for the supported tech stacks.
-
-### 2. AI Automation Skills
-- **[AI Skills Index](./skills/README.md)**: Main index file linking all executable automation runbooks.
-
----
