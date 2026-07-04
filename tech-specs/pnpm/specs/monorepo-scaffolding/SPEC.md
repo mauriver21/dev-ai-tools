@@ -4,11 +4,11 @@
 
 Create a scalable **pnpm workspace monorepo** that supports multiple applications and shared packages.
 
-The repository should be organized into three top-level categories:
+The repository should be organized into three workspace categories:
 
-- **packages** — Shared libraries and tooling.
-- **web** — Frontend applications.
-- **api** — Backend services.
+- **packages/shared** — Shared libraries and tooling.
+- **packages/web** — Frontend applications.
+- **packages/api** — Backend services.
 
 The structure should allow adding new workspaces without modifying the overall architecture.
 
@@ -18,20 +18,18 @@ The structure should allow adding new workspaces without modifying the overall a
 
 ```text
 .
-├── api/
-│   ├── auth-service/
-│   └── users-service/
-│
-├── web/
-│   ├── admin/
-│   └── marketing/
-│
 ├── packages/
-│   ├── ui/
-│   ├── utils/
-│   ├── types/
-│   └── eslint-config/
-│
+│   ├── api/
+│   │   ├── auth-service/
+│   │   └── users-service/
+│   ├── web/
+│   │   ├── admin/
+│   │   └── marketing/
+│   └── shared/
+│       ├── ui/
+│       ├── utils/
+│       ├── types/
+│       └── eslint-config/
 ├── package.json
 ├── pnpm-workspace.yaml
 ├── tsconfig.base.json
@@ -45,16 +43,16 @@ The structure should allow adding new workspaces without modifying the overall a
 
 ```yaml
 packages:
-  - packages/*
-  - web/*
-  - api/*
+  - packages/api/*
+  - packages/web/*
+  - packages/shared/*
 ```
 
 ---
 
 ## Package Responsibilities
 
-### packages/
+### packages/shared/
 
 Contains reusable libraries shared across applications.
 
@@ -67,13 +65,13 @@ Examples:
 - Configuration
 - Shared tooling
 
-### web/
+### packages/web/
 
 Contains independent frontend applications.
 
 Each application should be buildable and deployable independently.
 
-### api/
+### packages/api/
 
 Contains independent backend services.
 
@@ -109,7 +107,7 @@ Example scripts:
 
 - Use **kebab-case** for workspace names.
 - Keep applications independent.
-- Place reusable code under `packages`.
+- Place reusable code under `packages/shared`.
 - Avoid dependencies between applications.
 - Share common tooling through workspace packages when appropriate.
 - Keep the structure simple and scalable.
