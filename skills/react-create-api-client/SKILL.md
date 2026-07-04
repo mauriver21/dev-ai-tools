@@ -1,3 +1,8 @@
+---
+name: react-create-api-client
+description: Create a standardized API client hook for a specific entity/domain in a React application.
+---
+
 # Skill: Create React API Client
 
 This skill automates the creation of a standardized API client hook for a specific entity/domain in a React application.

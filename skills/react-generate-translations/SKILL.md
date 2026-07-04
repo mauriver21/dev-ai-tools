@@ -1,3 +1,8 @@
+---
+name: react-generate-translations
+description: Generate translation JSON catalogs for target languages and register them within the application following the conventions defined in tech-specs/react/specs/i18n/spec.md.
+---
+
 # Skill: Generate Translations
 
 This skill automates the creation of translation JSON catalogs for target languages and registers them within the application. It strictly adheres to the conventions defined in [i18n/spec.md](../../../tech-specs/react/specs/i18n/spec.md).

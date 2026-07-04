@@ -1,3 +1,8 @@
+---
+name: react-create-form-field
+description: Create a standardized, HOC-wrapped form field component in a React application that integrates with React Hook Form and includes Storybook interaction tests.
+---
+
 # Skill: Create Form Field Component
 
 This skill automates the creation of a standardized, HOC-wrapped form field component in a React application that integrates seamlessly with React Hook Form and includes Storybook interaction tests.

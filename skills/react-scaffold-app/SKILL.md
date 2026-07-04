@@ -1,3 +1,8 @@
+---
+name: react-scaffold-app
+description: Scaffold and bootstrap a complete React TypeScript application and configure the codebase to conform to the specifications defined in the repository.
+---
+
 # Skill: Scaffold React Application
 
 This skill automates the scaffolding and bootstrapping of a complete, premium React TypeScript application. It orchestrates project initialization and configures the codebase to conform strictly to the specifications defined in the repository.

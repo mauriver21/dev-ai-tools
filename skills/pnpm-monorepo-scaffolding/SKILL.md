@@ -1,3 +1,8 @@
+---
+name: pnpm-monorepo-scaffolding
+description: Create a pnpm monorepo by following the specifications located at specs/monorepo-scaffolding/.
+---
+
 # Monorepo Scaffolding Skill
 
 ## Purpose

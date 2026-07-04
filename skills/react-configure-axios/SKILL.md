@@ -1,3 +1,8 @@
+---
+name: react-configure-axios
+description: Configure a standardized Axios HTTP client instance in the src/utils/ directory following the conventions defined in tech-specs/react/specs/axios/spec.md.
+---
+
 # Skill: Configure Axios Client
 
 This skill automates the configuration of a standardized Axios HTTP client instance in the `src/utils/` directory. It strictly adheres to the conventions defined in [axios.md](../../../tech-specs/react/specs/axios/spec.md).

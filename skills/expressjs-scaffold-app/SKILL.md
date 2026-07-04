@@ -1,6 +1,6 @@
 ---
-name: scaffold-app
-description: Scaffold a new Express.js application by following the architecture, conventions, and implementation details documented in `tech-specs/expressjs`.
+name: expressjs-scaffold-app
+description: Scaffold a new Express.js application by following the architecture, conventions, and implementation details documented in tech-specs/expressjs.
 ---
 
 ## Steps

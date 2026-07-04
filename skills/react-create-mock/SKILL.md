@@ -1,3 +1,8 @@
+---
+name: react-create-mock
+description: Create MSW mock database seeds, request interceptor handlers, and router configurations for a specific entity in a React application following the conventions defined in tech-specs/react/specs/mocks/spec.md.
+---
+
 # Skill: Create API Mock (MSW)
 
 This skill automates the creation of MSW mock database seeds, request interceptor handlers, and router configurations for a specific entity in a React application. It strictly adheres to the conventions defined in [mocks/spec.md](../../../tech-specs/react/specs/mocks/spec.md).

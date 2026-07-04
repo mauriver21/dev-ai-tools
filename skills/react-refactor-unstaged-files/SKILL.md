@@ -1,3 +1,8 @@
+---
+name: react-refactor-unstaged-files
+description: Refactor modified, unstaged files in the workspace to ensure they strictly adhere to all React technical specifications and architectural conventions.
+---
+
 # Skill: Refactor Unstaged Files
 
 This skill automates the refactoring of modified, unstaged files in the workspace to ensure they strictly adhere to all React technical specifications and architectural conventions.

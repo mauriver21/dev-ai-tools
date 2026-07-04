@@ -1,3 +1,8 @@
+---
+name: react-create-theme
+description: Create and register a custom Material UI theme (with light and dark modes) in a React application following the conventions defined in tech-specs/react/specs/styling/spec.md.
+---
+
 # Skill: Create React MUI Theme
 
 This skill automates the creation and registration of a custom Material UI theme (with light and dark modes) in a React application. It strictly adheres to the conventions defined in [styling/spec.md](../../../tech-specs/react/specs/styling/spec.md).
