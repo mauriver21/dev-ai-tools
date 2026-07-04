@@ -167,6 +167,7 @@ describe('useToggle', () => {
 ## General Coding Conventions
 
 1. **Boolean Casting**: Avoid double negation (`!!value`) and prioritize using `Boolean(value)` for casting truthy/falsy expressions to boolean values (e.g., checking if error or helper states exist) to enhance code readability and clarity.
+2. **SVG & External Library Icons**: All SVG icons or icons from external libraries MUST be declared inside the `src/assets/icons/` folder, following the nomenclature `{{IconName}}Icon.tsx` (e.g., `HomeIcon.tsx`, `SearchIcon.tsx`).
 
 [Go back to Table of Contents](../README.md)
 

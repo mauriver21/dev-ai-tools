@@ -8,6 +8,7 @@ A standardized "Folder-as-Module" layout for the frontend application where ever
 src/
 ├── api-clients/       # Axios API clients for fetching remote backend endpoints
 ├── assets/            # Static assets like images, fonts, and global CSS
+│   └── icons/         # SVG or external library icons ({{IconName}}Icon.tsx)
 ├── components/        # Reusable presentation and layout UI components (PascalCase)
 ├── constants/         # Application-level constants (e.g. routes, keys)
 ├── contexts/          # Context providers (PascalCase)
