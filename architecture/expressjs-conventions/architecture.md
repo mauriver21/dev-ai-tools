@@ -267,17 +267,24 @@ Acts as the HTTP request and response handler. It extracts route params, invokes
 
 ```typescript
 import { Request, Response } from "express";
+
+import { {{EntityName}}Create } from "@/interfaces/{{EntityName}}Create";
+import { {{EntityName}}Update } from "@/interfaces/{{EntityName}}Update";
 import { create{{EntityName}}Repository } from "@/repositories/create{{EntityName}}Repository";
 
 const {{entityName}}Repository = create{{EntityName}}Repository();
 
-export const create{{EntityName}}Controller = () => {
-  const create = async (req: Request, res: Response) => {
-    try {
-      // Exclude ids or read-only properties from client payloads
-      const { id: _, ...payload } = req.body;
+interface IdParams {
+  id: string;
+}
 
-      const data = await {{entityName}}Repository.create(payload);
+export const create{{EntityName}}Controller = () => {
+  const create = async (
+    req: Request<unknown, unknown, {{EntityName}}Create>,
+    res: Response,
+  ) => {
+    try {
+      const data = await {{entityName}}Repository.create(req.body);
 
       return res.status(201).json(data);
     } catch (error: any) {
@@ -285,11 +292,12 @@ export const create{{EntityName}}Controller = () => {
     }
   };
 
-  const read = async (req: Request, res: Response) => {
+  const read = async (
+    req: Request<IdParams>,
+    res: Response,
+  ) => {
     try {
-      const { id } = req.params;
-
-      const data = await {{entityName}}Repository.read(Number(id));
+      const data = await {{entityName}}Repository.read(Number(req.params.id));
 
       return res.status(200).json(data);
     } catch (error: any) {
@@ -297,7 +305,41 @@ export const create{{EntityName}}Controller = () => {
     }
   };
 
-  return { create, read };
+  const update = async (
+    req: Request<IdParams, unknown, {{EntityName}}Update>,
+    res: Response,
+  ) => {
+    try {
+      const data = await {{entityName}}Repository.update(
+        Number(req.params.id),
+        req.body,
+      );
+
+      return res.status(200).json(data);
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  };
+
+  const remove = async (
+    req: Request<IdParams>,
+    res: Response,
+  ) => {
+    try {
+      await {{entityName}}Repository.remove(Number(req.params.id));
+
+      return res.sendStatus(204);
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  };
+
+  return {
+    create,
+    read,
+    update,
+    remove,
+  };
 };
 ```
 
