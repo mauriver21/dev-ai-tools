@@ -68,6 +68,88 @@ export type {{EntityName}} = InferSelectModel<typeof {{entityNamePlural}}>;
 
 ---
 
+## Derived Entity Types (`src/interfaces/`)
+
+Define reusable CRUD types derived from `{{EntityType}}`. Each type must live in its own file under the `src/interfaces/` folder.
+
+```text
+src/
+└── interfaces/
+    ├── {{EntityName}}Create.ts
+    ├── {{EntityName}}Update.ts
+    ├── {{EntityName}}Read.ts
+    ├── {{EntityName}}Delete.ts
+    └── {{EntityName}}List.ts
+```
+
+### `src/interfaces/{{EntityName}}Create.ts`
+
+Used when creating a new entity.
+
+```typescript
+import { {{EntityType}} } from "@/db/schema/{{entityNamePlural}}";
+
+export type {{EntityName}}Create = Omit<
+  {{EntityType}},
+  "id" | "createdAt" | "updatedAt" | "deletedAt"
+>;
+```
+
+### `src/interfaces/{{EntityName}}Update.ts`
+
+Used when updating an existing entity.
+
+```typescript
+import { {{EntityType}} } from "@/db/schema/{{entityNamePlural}}";
+
+export type {{EntityName}}Update = Partial<
+  Omit<
+    {{EntityType}},
+    "id" | "createdAt" | "updatedAt" | "deletedAt"
+  >
+>;
+```
+
+### `src/interfaces/{{EntityName}}Read.ts`
+
+Represents the complete entity returned by read operations.
+
+```typescript
+import { {{EntityType}} } from "@/db/schema/{{entityNamePlural}}";
+
+export type {{EntityName}}Read = {{EntityType}};
+```
+
+### `src/interfaces/{{EntityName}}Delete.ts`
+
+Represents the payload required for a delete (soft or hard) operation.
+
+```typescript
+export interface {{EntityName}}Delete {
+  id: number;
+}
+```
+
+### `src/interfaces/{{EntityName}}List.ts`
+
+Represents a paginated list response.
+
+```typescript
+import { {{EntityName}}Read } from "./{{EntityName}}Read";
+
+export interface {{EntityName}}List {
+  data: {{EntityName}}Read[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+```
+
+> [!IMPORTANT]
+> All CRUD layers (validators, controllers, repositories, and models) should consume these derived types instead of using `Omit`, `Partial`, or `InferSelectModel` directly. This centralizes the API contracts and avoids duplicating type transformations throughout the codebase.
+
+---
+
 ## Layer 2: Payload Validator
 
 Validates the incoming HTTP request payload schema. The validation middleware intercepts invalid requests before they reach the controllers.
