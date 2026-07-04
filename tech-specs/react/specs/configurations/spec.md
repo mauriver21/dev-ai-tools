@@ -1,17 +1,15 @@
 # Configuration Files
 
-## 1. TypeScript Paths Configuration (`tsconfig.app.json`)
+## 1. TypeScript Path Aliases (`tsconfig.json`)
 
-To enable clean path imports and avoid deep relative links (like `../../../../components`), configure path aliases pointing to the respective module folders inside `src/`. Mappings are defined under `compilerOptions.paths` using the following generic patterns:
+Configure TypeScript to use absolute imports through path aliases.
 
-* **Directory Aliases**: `@/{{folder-name}}/*` maps to `["./src/{{folder-name}}/*"]` (e.g. `@/components/*` resolving to `./src/components/*`).
-* **Direct File Aliases**: `@/{{file-name}}` maps to `["./src/{{file-name}}"]` (e.g. `@/store` resolving to `./src/store.ts`).
-
-Generic configuration structure template:
+Example:
 
 ```json
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
       "@/{{folderName}}/*": ["./src/{{folderName}}/*"],
       "@/{{fileName}}": ["./src/{{fileName}}"]
