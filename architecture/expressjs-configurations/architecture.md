@@ -1,38 +1,19 @@
 # Configurations & Server Bootstrap
 
-## 1. TypeScript Configuration (`tsconfig.json`)
+## 1. TypeScript Path Aliases (`tsconfig.json`)
 
-Configure absolute path mapping for the backend project:
+Configure TypeScript to use absolute imports through path aliases.
+
+Example:
 
 ```json
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "commonjs",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist",
-    "rootDir": "./",
-    "baseUrl": "./",
     "paths": {
-      "@/config": ["src/config"],
-      "@/constants/*": ["src/constants/*"],
-      "@/controllers/*": ["src/controllers/*"],
-      "@/db": ["src/db"],
-      "@/middlewares/*": ["src/middlewares/*"],
-      "@/models/*": ["src/models/*"],
-      "@/repositories/*": ["src/repositories/*"],
-      "@/routes": ["src/routes"],
-      "@/schemas/*": ["src/db/schema/*"],
-      "@/singleton": ["src/singleton"],
-      "@/validators/*": ["src/validators/*"],
-      "@/utils/*": ["src/utils/*"]
+      "@/{{folderName}}/*": ["./src/{{folderName}}/*"],
+      "@/{{fileName}}": ["./src/{{fileName}}"]
     }
-  },
-  "include": ["src/**/*", "scripts/**/*"],
-  "exclude": ["node_modules"]
+  }
 }
 ```
 

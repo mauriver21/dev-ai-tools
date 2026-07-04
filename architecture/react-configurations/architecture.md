@@ -9,7 +9,6 @@ Example:
 ```json
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@/{{folderName}}/*": ["./src/{{folderName}}/*"],
       "@/{{fileName}}": ["./src/{{fileName}}"]

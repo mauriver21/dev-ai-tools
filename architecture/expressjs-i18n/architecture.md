@@ -228,6 +228,39 @@ Every request executed after this middleware automatically has access to its own
 
 ---
 
+---
+
+# Shared i18n Instance
+
+Create a shared i18next instance under `src/i18n/index.ts`.
+
+```typescript
+...
+```
+
+The application must create **only one** i18next instance.
+
+---
+
+# Shared i18n Instance Initialization
+
+Initialize the shared i18next instance during application startup by importing the i18n module from the application's entry point.
+
+For example, in `src/index.ts`:
+
+```typescript
+import "@/i18n";
+```
+
+Since the i18n module initializes itself on import, no additional setup is required. This import must be executed once before the application starts handling requests.
+
+> [!IMPORTANT]
+> The shared i18next instance must be initialized exactly once during application startup. Do not import `@/i18n` from feature modules, controllers, repositories, or middlewares solely to trigger initialization.
+
+---
+
+# Request Context
+
 # Translation Utility
 
 To simplify translations throughout the application, define a shared `t` utility that delegates translation to the current request context.

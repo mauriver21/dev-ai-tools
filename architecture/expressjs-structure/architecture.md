@@ -12,9 +12,11 @@ src/
 ├── db/                # Database connections and ORM schema configurations
 │   ├── schema/        # Table schema definitions (entities)
 │   └── index.ts       # Database client initialization
+├── i18n/              # Localization files and translation setup
 ├── interfaces/        # Shared TypeScript interfaces and contracts
 ├── middlewares/       # Request interceptors (auth checks, logs, global error handling)
 ├── models/            # Domain classes and entities
+├── providers/         # Access to infrastructure or contextual services
 ├── repositories/      # Database access layers (Drizzle queries and transactions)
 ├── routes/            # API routing entrypoints (divided into public and private)
 ├── singletons/        # Unique shared instances
