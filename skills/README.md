@@ -29,6 +29,9 @@ This directory contains the executable skills (or prompt runbooks) for AI agents
 7. **[Create Form Field Component](./react/create-form-field/SKILL.md)**
    Automates generating standardized HOC-wrapped form field components integrated with React Hook Form and Storybook play-function test suites.
 
+8. **[Refactor Unstaged Files](./react/refactor-unstaged-files/SKILL.md)**
+   Refactors modified, unstaged files in the workspace to strictly comply with all folder structures, naming conventions, typescript interface rules, and styling/icon specifications.
+
 ### Orchestration / Setup
 
 1. **[Install Dev AI Tools & Specs](./open-spec-install-dev-ai-tools/SKILL.md)**
