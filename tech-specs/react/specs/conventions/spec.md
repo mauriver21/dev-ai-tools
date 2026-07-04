@@ -19,12 +19,14 @@ src/components/PrimaryButton/
 > [!NOTE]
 > If a component contains no custom business logic or complex state transitions and can be verified entirely through visual inspection in Storybook, the `index.test.tsx` file is not required.
 
-
 ### 1. `index.tsx` (Implementation)
 
 ```tsx
-import React from 'react';
-import { Button as MuiButton, ButtonProps as MuiButtonProps } from '@mui/material';
+import React from "react";
+import {
+  Button as MuiButton,
+  ButtonProps as MuiButtonProps,
+} from "@mui/material";
 
 export interface PrimaryButtonProps extends MuiButtonProps {
   label: string;
@@ -32,8 +34,8 @@ export interface PrimaryButtonProps extends MuiButtonProps {
 
 export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   label,
-  variant = 'contained',
-  color = 'primary',
+  variant = "contained",
+  color = "primary",
   onClick,
   ...props
 }) => {
@@ -48,20 +50,20 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
 ### 2. `index.test.tsx` (Unit Tests)
 
 ```tsx
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { PrimaryButton } from './index';
+import { describe, it, expect, vi } from "vitest";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { PrimaryButton } from "./index";
 
-describe('PrimaryButton Component', () => {
-  it('renders the label correctly', () => {
+describe("PrimaryButton Component", () => {
+  it("renders the label correctly", () => {
     render(<PrimaryButton label="Click Me" />);
-    expect(screen.getByText('Click Me')).toBeInTheDocument();
+    expect(screen.getByText("Click Me")).toBeInTheDocument();
   });
 
-  it('fires onClick event handler when clicked', () => {
+  it("fires onClick event handler when clicked", () => {
     const handleClick = vi.fn();
     render(<PrimaryButton label="Click Me" onClick={handleClick} />);
-    fireEvent.click(screen.getByText('Click Me'));
+    fireEvent.click(screen.getByText("Click Me"));
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 });
@@ -70,15 +72,15 @@ describe('PrimaryButton Component', () => {
 ### 3. `index.stories.tsx` (Storybook Stories)
 
 ```tsx
-import type { Meta, StoryObj } from '@storybook/react';
-import { PrimaryButton } from './index';
+import type { Meta, StoryObj } from "@storybook/react";
+import { PrimaryButton } from "./index";
 
 const meta: Meta<typeof PrimaryButton> = {
-  title: 'Components/PrimaryButton',
+  title: "Components/PrimaryButton",
   component: PrimaryButton,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
-    onClick: { action: 'clicked' },
+    onClick: { action: "clicked" },
   },
 };
 
@@ -87,17 +89,17 @@ type Story = StoryObj<typeof PrimaryButton>;
 
 export const Primary: Story = {
   args: {
-    label: 'Primary Button',
-    variant: 'contained',
-    color: 'primary',
+    label: "Primary Button",
+    variant: "contained",
+    color: "primary",
   },
 };
 
 export const Secondary: Story = {
   args: {
-    label: 'Secondary Button',
-    variant: 'outlined',
-    color: 'secondary',
+    label: "Secondary Button",
+    variant: "outlined",
+    color: "secondary",
   },
 };
 ```
@@ -119,7 +121,7 @@ src/hooks/useToggle/
 ### 1. `index.ts` (Implementation)
 
 ```typescript
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 
 export interface UseToggleReturn {
   value: boolean;
@@ -142,17 +144,17 @@ export const useToggle = (initialValue = false): UseToggleReturn => {
 ### 2. `index.test.ts` (Unit Tests)
 
 ```typescript
-import { describe, it, expect } from 'vitest';
-import { renderHook, act } from '@testing-library/react';
-import { useToggle } from './index';
+import { describe, it, expect } from "vitest";
+import { renderHook, act } from "@testing-library/react";
+import { useToggle } from "./index";
 
-describe('useToggle', () => {
-  it('should initialize with default value', () => {
+describe("useToggle", () => {
+  it("should initialize with default value", () => {
     const { result } = renderHook(() => useToggle());
     expect(result.current.value).toBe(false);
   });
 
-  it('should toggle values', () => {
+  it("should toggle values", () => {
     const { result } = renderHook(() => useToggle(false));
     act(() => {
       result.current.toggle();
@@ -170,6 +172,8 @@ describe('useToggle', () => {
 2. **SVG & External Library Icons**: All SVG icons or icons from external libraries MUST be declared inside the `src/assets/icons/` folder, following the nomenclature `{{IconName}}Icon.tsx` (e.g., `HomeIcon.tsx`, `SearchIcon.tsx`).
 3. **Import & Export Conventions**: Always prioritize named exports (e.g., `export const MyComponent = ...`) and named imports (e.g., `import { MyComponent } from './MyComponent'`) instead of default exports/imports to facilitate cleaner refactoring, robust tree-shaking, and predictable auto-imports in the IDE.
 4. **Function Definitions**: Declare components, hooks, and helpers as arrow functions (e.g., `export const MyComponent: React.FC = () => { ... }`) to maintain syntax consistency across the application.
+5. **Standalone Interface Files**: Every TypeScript type or interface defined in the application (including data models, API payloads, parameters, custom state structures, etc.)—**with the sole exception of component-specific props**—MUST be created as a standalone file inside the `src/interfaces/` directory.
+6. **Single-File Principle**: Each file in the `src/interfaces/` directory MUST contain only a single type or interface declaration (e.g. `src/interfaces/User.ts`, `src/interfaces/Item.ts`). Do not combine multiple unrelated types into a single file.
+7. **Component-Specific Props**: Props and configurations specific to a single component (e.g. `ButtonProps`, `CardProps`) MUST remain inside that component's file. Do not move component-specific props to the `src/interfaces/` folder.
 
 [Go back to Table of Contents](../README.md)
-
