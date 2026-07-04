@@ -265,18 +265,29 @@ export const create{{EntityName}}Repository = () => {
 
 Acts as the HTTP request and response handler. It extracts route params, invokes repositories, manages status codes, and formats API error payloads.
 
+### Route Parameter Type
+
+Route parameter interfaces should be shared across the application and live under the `src/interfaces` folder.
+
+#### `src/interfaces/IdParams.ts`
+
+```typescript
+export interface IdParams {
+  id: string;
+}
+```
+
+> [!IMPORTANT]
+> Route parameters received by Express are always strings. Controllers should only convert `req.params.id` to another type (e.g. `Number(req.params.id)`) if required by the repository or service contract. If the repository accepts a `string` identifier (such as a UUID), pass `req.params.id` directly without conversion.
+
 ```typescript
 import { Request, Response } from "express";
-
 import { {{EntityName}}Create } from "@/interfaces/{{EntityName}}Create";
 import { {{EntityName}}Update } from "@/interfaces/{{EntityName}}Update";
 import { create{{EntityName}}Repository } from "@/repositories/create{{EntityName}}Repository";
+import { IdParams } from "@/interfaces/IdParams";
 
 const {{entityName}}Repository = create{{EntityName}}Repository();
-
-interface IdParams {
-  id: string;
-}
 
 export const create{{EntityName}}Controller = () => {
   const create = async (
