@@ -1,11 +1,11 @@
 ---
 name: react-configure-axios
-description: Configure a standardized Axios HTTP client instance in the src/utils/ directory following the conventions defined in tech-specs/react/specs/axios/spec.md.
+description: Configure a standardized Axios HTTP client instance in the src/utils/ directory following the conventions defined in architecture/react-axios/architecture.md.
 ---
 
 # Skill: Configure Axios Client
 
-This skill automates the configuration of a standardized Axios HTTP client instance in the `src/utils/` directory. It strictly adheres to the conventions defined in [axios.md](architecture/react/specs/axios/spec.md).
+This skill automates the configuration of a standardized Axios HTTP client instance in the `src/utils/` directory. It strictly adheres to the conventions defined in [architecture.md](architecture/react-axios/architecture.md).
 
 ---
 
@@ -41,7 +41,7 @@ src/utils/{{clientName}}Axios/
 Write the Axios instance configuration code to `src/utils/{{clientName}}Axios/index.ts`.
 Do not duplicate code; read the template and naming conventions directly from:
 
-- [axios.md](architecture/react/specs/axios/spec.md#2-axios-configuration)
+- [architecture.md](architecture/react-axios/architecture.md#2-axios-configuration)
 
 Replace:
 

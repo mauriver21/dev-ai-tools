@@ -1,11 +1,11 @@
 ---
 name: react-generate-translations
-description: Generate translation JSON catalogs for target languages and register them within the application following the conventions defined in tech-specs/react/specs/i18n/spec.md.
+description: Generate translation JSON catalogs for target languages and register them within the application following the conventions defined in architecture/react-i18n/architecture.md.
 ---
 
 # Skill: Generate Translations
 
-This skill automates the creation of translation JSON catalogs for target languages and registers them within the application. It strictly adheres to the conventions defined in [i18n/spec.md](architecture/react/specs/i18n/spec.md).
+This skill automates the creation of translation JSON catalogs for target languages and registers them within the application. It strictly adheres to the conventions defined in [architecture.md](architecture/react-i18n/architecture.md).
 
 ---
 
@@ -68,7 +68,7 @@ export { default as {{namespace1}} } from './{{namespace1}}.json';
 export { default as {{namespace2}} } from './{{namespace2}}.json';
 ```
 
-_(Reference: [i18n/spec.md#2-namespace-bundlers](architecture/react/specs/i18n/spec.md#2-namespace-bundlers))_
+_(Reference: [architecture.md#2-namespace-bundlers](architecture/react-i18n/architecture.md#2-namespace-bundlers))_
 
 ### Step 5: Register Target Languages Globally
 
@@ -78,7 +78,7 @@ Update the global namespace aggregator file `src/i18n/translations/index.ts` to 
 export * as {{targetLang}} from './{{targetLang}}';
 ```
 
-_(Reference: [i18n/spec.md#global-namespace-index](architecture/react/specs/i18n/spec.md#global-namespace-index))_
+_(Reference: [architecture.md#global-namespace-index](architecture/react-i18n/architecture.md#global-namespace-index))_
 
 ---
 

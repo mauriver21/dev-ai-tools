@@ -1,11 +1,11 @@
 ---
 name: react-create-mock
-description: Create MSW mock database seeds, request interceptor handlers, and router configurations for a specific entity in a React application following the conventions defined in tech-specs/react/specs/mocks/spec.md.
+description: Create MSW mock database seeds, request interceptor handlers, and router configurations for a specific entity in a React application following the conventions defined in architecture/react-mocks/architecture.md.
 ---
 
 # Skill: Create API Mock (MSW)
 
-This skill automates the creation of MSW mock database seeds, request interceptor handlers, and router configurations for a specific entity in a React application. It strictly adheres to the conventions defined in [mocks/spec.md](architecture/react/specs/mocks/spec.md).
+This skill automates the creation of MSW mock database seeds, request interceptor handlers, and router configurations for a specific entity in a React application. It strictly adheres to the conventions defined in [architecture.md](architecture/react-mocks/architecture.md).
 
 ---
 
@@ -36,7 +36,7 @@ Follow these steps to perform the skill:
 Create the seed data file at `src/mocks/data/{{entityName}}s.ts`.
 Read the structure and boilerplate specifications directly from:
 
-- [mocks/spec.md#3-mock-data-seed-boilerplate](architecture/react/specs/mocks/spec.md#3-mock-data-seed-boilerplate)
+- [architecture.md#3-mock-data-seed-boilerplate](architecture/react-mocks/architecture.md#3-mock-data-seed-boilerplate)
 
 Ensure you define the mutable mock array (e.g., `export let {{entityName}}s = [...]`) and a setter function (e.g., `export const set{{EntityName}}s = ...`).
 
@@ -52,7 +52,7 @@ Import the new entity seeds and setter functions inside the main mocks database 
 Create the route interceptor file at `src/mocks/handlers/{{entityName}}Handler.ts`.
 Do not duplicate code; implement the CRUD route handlers (list, create, update, read, remove) using the MSW boilerplate in:
 
-- [mocks/spec.md#4-request-handler-boilerplate](architecture/react/specs/mocks/spec.md#4-request-handler-boilerplate)
+- [architecture.md#4-request-handler-boilerplate](architecture/react-mocks/architecture.md#4-request-handler-boilerplate)
 
 Make sure you replace:
 

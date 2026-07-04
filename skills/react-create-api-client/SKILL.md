@@ -45,7 +45,7 @@ src/api-clients/use{{EntityName}}ApiClient/
 Write the custom hook code to `src/api-clients/use{{EntityName}}ApiClient/index.ts`.
 Read the template code directly from section 3 ("Reference Boilerplate") of:
 
-- [api-clients.md](architecture/react/specs/api-clients/spec.md#3-reference-boilerplate)
+- [architecture.md](architecture/react-api-clients/architecture.md#3-reference-boilerplate)
 
 Replace all placeholder variables:
 
@@ -58,7 +58,7 @@ Replace all placeholder variables:
 Create a Vitest test suite at `src/api-clients/use{{EntityName}}ApiClient/index.test.ts` using MSW.
 Read the unit test code template directly from section 6 ("Unit Testing Boilerplate (MSW)") of:
 
-- [api-clients.md](architecture/react/specs/api-clients/spec.md#6-unit-testing-boilerplate-msw)
+- [architecture.md](architecture/react-api-clients/architecture.md#6-unit-testing-boilerplate-msw)
 
 Replace:
 

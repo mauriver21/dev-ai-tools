@@ -57,34 +57,34 @@ For each identified file, apply the relevant technical specifications:
      - **Components** (e.g., `src/components/MyComponent.tsx`): Move to `src/components/MyComponent/index.tsx` (along with `index.css`, `index.test.tsx`, and `index.stories.tsx` as needed).
      - **Hooks** (e.g., `src/hooks/useMyHook.ts`): Move to `src/hooks/useMyHook/index.ts` (along with `index.test.ts`).
      - **Others (utilities, contexts, hocs, api-clients, states, etc.)**: Move from `src/{{folder}}/myModule.ts` to `src/{{folder}}/myModule/index.ts` (or `index.tsx`).
-   - References: [conventions/spec.md](architecture/react/specs/conventions/spec.md) and [structure/spec.md](architecture/react/specs/structure/spec.md).
+   - References: [architecture.md](architecture/react-conventions/architecture.md) and [architecture.md](architecture/react-structure/architecture.md).
 
 2. **Types and Interfaces Separation**:
    - Inspect all custom type and interface declarations in the files.
    - Apart from **component-specific props** (which must stay inside the component's file), extract every shared type/interface into a standalone file inside `src/interfaces/`.
    - Follow the **Single-File Principle**: each file under `src/interfaces/` must contain only one type or interface declaration (e.g. `src/interfaces/User.ts`).
-   - Reference: [structure/spec.md](architecture/react/specs/structure/spec.md#3-general-types-and-interfaces-conventions).
+   - Reference: [architecture.md](architecture/react-structure/architecture.md#3-general-types-and-interfaces-conventions).
 
 3. **SVG & External Library Icons**:
    - Check if the unstaged files contain inline SVGs or custom icons imported from external packages.
    - Declare/move them into the `src/assets/icons/` directory using the `{{IconName}}Icon.tsx` nomenclature (e.g., `HomeIcon.tsx`, `SearchIcon.tsx`).
-   - Reference: [conventions/spec.md](architecture/react/specs/conventions/spec.md#general-coding-conventions) and [structure/spec.md](architecture/react/specs/structure/spec.md).
+   - Reference: [architecture.md](architecture/react-conventions/architecture.md#general-coding-conventions) and [architecture.md](architecture/react-structure/architecture.md).
 
 4. **Boolean Casting**:
    - Replace any usage of double negations (`!!value`) with explicit casting using the `Boolean(value)` function.
-   - Reference: [conventions/spec.md](architecture/react/specs/conventions/spec.md#general-coding-conventions).
+   - Reference: [architecture.md](architecture/react-conventions/architecture.md#general-coding-conventions).
 
 5. **Axios & API Client Specifications**:
    - Check if files declare HTTP clients or API request hooks.
-   - Standardize Axios configurations using the client factory structure under `src/utils/{{clientName}}Axios/` as per [axios/spec.md](architecture/react/specs/axios/spec.md).
-   - Ensure custom API client hooks conform to the pagination, response wrapper, and MSW unit test mocks described in [api-clients/spec.md](architecture/react/specs/api-clients/spec.md) and [mocks/spec.md](architecture/react/specs/mocks/spec.md).
+   - Standardize Axios configurations using the client factory structure under `src/utils/{{clientName}}Axios/` as per [axios/spec.md](architecture/react-axios/architecture.md).
+   - Ensure custom API client hooks conform to the pagination, response wrapper, and MSW unit test mocks described in [api-clients/spec.md](architecture/react-api-clients/architecture.md) and [architecture.md](architecture/react-mocks/architecture.md).
 
 6. **Forms & Validation**:
    - Ensure form implementations combine `react-hook-form` and validation schemas (e.g., Yup) under `src/form-schemas/` following camelCase hooks naming.
-   - Reference: [react-hook-form/spec.md](architecture/react/specs/react-hook-form/spec.md).
+   - Reference: [react-hook-form/spec.md](architecture/react-hook-form/architecture.md).
 
 7. **Styling and Design System**:
-   - Ensure any custom style rules or Material-UI component overrides align with styling palettes and the design system in [styling/spec.md](architecture/react/specs/styling/spec.md).
+   - Ensure any custom style rules or Material-UI component overrides align with styling palettes and the design system in [architecture.md](architecture/react-styling/architecture.md).
 
 ### Step 3: Run Quality Checks
 

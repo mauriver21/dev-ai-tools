@@ -1,11 +1,11 @@
 ---
 name: react-create-theme
-description: Create and register a custom Material UI theme (with light and dark modes) in a React application following the conventions defined in tech-specs/react/specs/styling/spec.md.
+description: Create and register a custom Material UI theme (with light and dark modes) in a React application following the conventions defined in architecture/react-styling/architecture.md.
 ---
 
 # Skill: Create React MUI Theme
 
-This skill automates the creation and registration of a custom Material UI theme (with light and dark modes) in a React application. It strictly adheres to the conventions defined in [styling/spec.md](architecture/react/specs/styling/spec.md).
+This skill automates the creation and registration of a custom Material UI theme (with light and dark modes) in a React application. It strictly adheres to the conventions defined in [architecture.md](architecture/react-styling/architecture.md).
 
 ---
 
@@ -53,7 +53,7 @@ src/themes/{{themeName}}/
 Create `src/themes/{{themeName}}/light.ts` to define the light palette.
 Read the structure blueprint directly from:
 
-- [styling/spec.md#1-default-theme-palettes-srcthemesdefaultlightts](architecture/react/specs/styling/spec.md#1-default-theme-palettes-srcthemesdefaultlightts)
+- [architecture.md#1-default-theme-palettes-srcthemesdefaultlightts](architecture/react-styling/architecture.md#1-default-theme-palettes-srcthemesdefaultlightts)
 
 Replace colors with the custom light palette hex values.
 
@@ -66,7 +66,7 @@ Create `src/themes/{{themeName}}/dark.ts` to define the dark palette. Use the sa
 Create the theme compiler file at `src/themes/{{themeName}}/index.ts`.
 Do not duplicate code; implement the theme compiler utilizing the template in:
 
-- [styling/spec.md#2-default-theme-compiler-srcthemesdefaultindexts](architecture/react/specs/styling/spec.md#2-default-theme-compiler-srcthemesdefaultindexts)
+- [architecture.md#2-default-theme-compiler-srcthemesdefaultindexts](architecture/react-styling/architecture.md#2-default-theme-compiler-srcthemesdefaultindexts)
 
 Ensure you:
 

@@ -59,30 +59,30 @@ Install the required packages categorized by their architectural layers:
 
 Refer to the recommended package catalog in:
 
-- [structure/spec.md#2-core-dependencies--packages](architecture/react/specs/structure/spec.md#2-core-dependencies--packages)
+- [architecture.md#2-core-dependencies--packages](architecture/react-structure/architecture.md#2-core-dependencies--packages)
 
 ### Step 3: Setup Directory Layout
 
 Scaffold the standard "Folder-as-Module" directory structure under `src/` (creating directories like `api-clients`, `components`, `states`, `utils`, `interfaces`, `mocks`, `i18n`, etc.).
 Refer to the layout map in:
 
-- [structure/spec.md#1-directory-structure](architecture/react/specs/structure/spec.md#1-directory-structure)
+- [architecture.md#1-directory-structure](architecture/react-structure/architecture.md#1-directory-structure)
 
 ### Step 4: Configure Base Project Files
 
 Configure configurations and versions:
 
-1. **tsconfig.app.json**: Setup TS path alias configurations pointing to `@/*` matching [configurations/spec.md#1-typescript-paths-configuration-tsconfigappjson](architecture/react/specs/configurations/spec.md#1-typescript-paths-configuration-tsconfigappjson).
-2. **vite.config.ts**: Setup Vite bundler plugins, Vitest configurations, environment loadings, and type checkers matching [configurations/spec.md#2-vite--vitest-configuration-viteconfigts](architecture/react/specs/configurations/spec.md#2-vite--vitest-configuration-viteconfigts).
-3. **.prettierrc**: Setup code formatter settings matching [configurations/spec.md#4-code-formatting-config-prettierrc](architecture/react/specs/configurations/spec.md#4-code-formatting-config-prettierrc).
-4. **.gitignore**: Setup exclusions matching [configurations/spec.md#5-version-control-exclusions-gitignore](architecture/react/specs/configurations/spec.md#5-version-control-exclusions-gitignore).
+1. **tsconfig.app.json**: Setup TS path alias configurations pointing to `@/*` matching [architecture.md#1-typescript-paths-configuration-tsconfigappjson](architecture/react-configurations/architecture.md#1-typescript-paths-configuration-tsconfigappjson).
+2. **vite.config.ts**: Setup Vite bundler plugins, Vitest configurations, environment loadings, and type checkers matching [architecture.md#2-vite--vitest-configuration-viteconfigts](architecture/react-configurations/architecture.md#2-vite--vitest-configuration-viteconfigts).
+3. **.prettierrc**: Setup code formatter settings matching [architecture.md#4-code-formatting-config-prettierrc](architecture/react-configurations/architecture.md#4-code-formatting-config-prettierrc).
+4. **.gitignore**: Setup exclusions matching [architecture.md#5-version-control-exclusions-gitignore](architecture/react-configurations/architecture.md#5-version-control-exclusions-gitignore).
 
 ### Step 5: Clean Default Assets
 
 Clean up Vite's default templates, empty the contents of `src/index.css`, and replace `src/App.tsx` with a refined Hello World layout that implements the theme selector and mode toggle switch layout illustrated in the wireframe:
 
 - **Wireframe Layout Source**: [hello-world-layout.png](./resources/images/hello-world-layout.png)
-- **Code Specification**: [configurations/spec.md#3-react-app-cleanup](architecture/react/specs/configurations/spec.md#3-react-app-cleanup)
+- **Code Specification**: [architecture.md#3-react-app-cleanup](architecture/react-configurations/architecture.md#3-react-app-cleanup)
 
 Ensure that:
 
@@ -95,7 +95,7 @@ Ensure that:
 Configure namespaces, catalogs, dynamic translations indexes, and the custom reactive translations wrapper component.
 Do not duplicate code; copy catalog structures and the reactive provider component implementation directly from:
 
-- [i18n/spec.md](architecture/react/specs/i18n/spec.md)
+- [architecture.md](architecture/react-i18n/architecture.md)
 
 ### Step 7: Setup API Mocking (MSW)
 
@@ -104,9 +104,9 @@ Do not duplicate code; copy catalog structures and the reactive provider compone
    npx msw init public --save
    ```
 2. Setup the browser worker, Node mock server, and mock data seeds by matching instructions and handlers boilerplates in:
-   - [mocks/spec.md](architecture/react/specs/mocks/spec.md)
+   - [architecture.md](architecture/react-mocks/architecture.md)
 3. Set up the test suite setup helper `src/setupTests.ts` to intercept HTTP requests using MSW during test runs matching:
-   - [testing/spec.md#2-integrating-msw-with-vitest](architecture/react/specs/testing/spec.md#2-integrating-msw-with-vitest)
+   - [architecture.md#2-integrating-msw-with-vitest](architecture/react-testing/architecture.md#2-integrating-msw-with-vitest)
 
 ### Step 8: Setup Storybook
 
@@ -115,12 +115,12 @@ Do not duplicate code; copy catalog structures and the reactive provider compone
    npx storybook@latest init --yes
    ```
 2. Configure Redux, router, and i18n decorators inside `.storybook/preview.tsx` by implementing the configuration template in:
-   - [testing/spec.md#3-minimal-storybook-setup](architecture/react/specs/testing/spec.md#3-minimal-storybook-setup)
+   - [architecture.md#3-minimal-storybook-setup](architecture/react-testing/architecture.md#3-minimal-storybook-setup)
 
 ### Step 9: Configure Store and Hydration Entrypoint
 
-1. Set up the global Redux store configuration `src/store.ts` by combining state reducers matching [state-management/spec.md#configure-the-redux-store-storets](architecture/react/specs/state-management/spec.md#configure-the-redux-store-storets).
-2. Wire up the bootstrap loader in `src/main.tsx` to conditionally start the MSW browser worker and render the React root wrapped in Redux and i18n providers matching [state-management/spec.md#wrap-the-application-maintsx](architecture/react/specs/state-management/spec.md#wrap-the-application-maintsx) and [mocks/spec.md#5-worker--server-configuration](architecture/react/specs/mocks/spec.md#5-worker--server-configuration).
+1. Set up the global Redux store configuration `src/store.ts` by combining state reducers matching [architecture.md#configure-the-redux-store-storets](architecture/react-state-management/architecture.md#configure-the-redux-store-storets).
+2. Wire up the bootstrap loader in `src/main.tsx` to conditionally start the MSW browser worker and render the React root wrapped in Redux and i18n providers matching [architecture.md#wrap-the-application-maintsx](architecture/react-state-management/architecture.md#wrap-the-application-maintsx) and [architecture.md#5-worker--server-configuration](architecture/react-mocks/architecture.md#5-worker--server-configuration).
 
 ### Step 10: Verify the Application is Running
 
@@ -141,15 +141,15 @@ Verify that the scaffolded application compiles and runs successfully:
 > [!IMPORTANT]
 > The scaffolded application and all of its modules, components, hooks, utilities, context providers, state stores, and test suites must strictly adhere to the technical specifications defined in the workspace:
 >
-> - **[Directory Structure & Dependencies](architecture/react/specs/structure/spec.md)**
-> - **[Component & Folder Conventions](architecture/react/specs/conventions/spec.md)**
-> - **[Configuration Files](architecture/react/specs/configurations/spec.md)**
-> - **[Axios Configuration](architecture/react/specs/axios/spec.md)**
-> - **[API Clients](architecture/react/specs/api-clients/spec.md)**
-> - **[React Redux Use Model](architecture/react/specs/state-management/spec.md)**
-> - **[API Mocking (MSW)](architecture/react/specs/mocks/spec.md)**
-> - **[Routing Specification](architecture/react/specs/routing/spec.md)**
-> - **[Internationalization (i18n)](architecture/react/specs/i18n/spec.md)**
-> - **[Styling Specification](architecture/react/specs/styling/spec.md)**
-> - **[Testing & Storybook Setup](architecture/react/specs/testing/spec.md)**
-> - **[Form Definition & Validation](architecture/react/specs/react-hook-form/spec.md)**
+> - **[Directory Structure & Dependencies](architecture/react-structure/architecture.md)**
+> - **[Component & Folder Conventions](architecture/react-conventions/architecture.md)**
+> - **[Configuration Files](architecture/react-configurations/architecture.md)**
+> - **[Axios Configuration](architecture/react-axios/architecture.md)**
+> - **[API Clients](architecture/react-api-clients/architecture.md)**
+> - **[React Redux Use Model](architecture/react-state-management/architecture.md)**
+> - **[API Mocking (MSW)](architecture/react-mocks/architecture.md)**
+> - **[Routing Specification](architecture/react-routing/architecture.md)**
+> - **[Internationalization (i18n)](architecture/react-i18n/architecture.md)**
+> - **[Styling Specification](architecture/react-styling/architecture.md)**
+> - **[Testing & Storybook Setup](architecture/react-testing/architecture.md)**
+> - **[Form Definition & Validation](architecture/react-hook-form/architecture.md)**
